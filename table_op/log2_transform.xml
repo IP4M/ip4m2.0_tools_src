@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<tool id="log2_transform" name="Peak table log2 transform" version="1.0" description="">
+    <command>"${SOFTDIR}/bin/Perl/bin/perl"
+    #if( $method == "lg" )
+        "${SOFTDIR}/tools/table_op/log2_transform_matrix.pl" 
+    #else
+        "${SOFTDIR}/tools/table_op/log2_transform_median_center_fpkm_matrix.pl" 
+    #end  "$matrix" "$html"  "$output"
+    </command>
+    <inputs>
+        <param name="matrix" label="Input Peak Table file, Tab-delimited text file:" type="data" format="txt"/>
+        <param name="method" label="Transform Method" type="select">
+            <option value="lg" selected="true">log2_transform</option>
+            <option value="lg_center">log2_transform_median_center</option>
+        </param>
+    </inputs>
+    <outputs>
+        <data filename="log2_transformed_pkTable.txt" name="output"/>
+        <html filename="outputs.html" name="html"/>
+    </outputs>
+</tool>

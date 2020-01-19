@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<tool id="gc_preprocess" name="GC-MS data preprocessing workflow" version="1.1"
+      description="from raw data to peak table">
+
+    <command>
+    "${SOFTDIR}/bin/Perl/bin/perl" "${SOFTDIR}/tools/workflow/gc_preprocess.pl" -input "$script_file" -pp_method "$type"
+    -db "$peak_anno" -cutoff "$cutoff"
+    -html "$html"
+    </command>
+
+    <inputs>
+        <param name="input" type="data" format="cdf" label="Select multiple cdf/mzXML files" help="netcdf/mzXML format." multiple="true"/>
+        <param name="type" label="Peak calling method:" type="select" display="radio">
+            <option value="metaMS" selected="true">metaMS.runGC</option>
+            <option value="erah" >eRah</option>
+        </param>
+        <param name="peak_anno" label="Public DB:" type="select" multiple="true" display="checkboxes">
+            <option value="NIST.msp" selected="true">NSEN</option>
+            <option value="GMD_20111121_MDN35_FAME_MSP.txt">GMD_FAME</option>
+            <option value="GMD_20111121_MDN35_ALK_MSP.txt">GMD_ALK</option>   
+            <option value="T_MSRI_ID.msp">GMD_MSIR</option>
+            <option value="MoNA-export-HMDB.msp">MoNA-HMDB</option>
+            <option value="MoNA-export-MetaboBASE.msp">MoNA-MetaboBASE</option>
+            <option value="MoNA-export-ReSpect.msp">MoNA-ReSpect</option>
+         </param>
+         <param name="cutoff" type="float" value="0.7" label="Library search: mass spectrum similarity cutoff." help="0-1. more similar have a larger matching factor.">
+            <validator type="in_range" min="0" max="1"/>
+         </param>
+    </inputs>
+
+    <outputs>
+        <html filename="outputs.html" name="html"/>
+    </outputs>
+    <configfiles>
+        <configfile name="script_file">$input</configfile>
+    </configfiles>
+</tool>

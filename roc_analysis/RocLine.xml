@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<tool id="roc_analysis" name="Roc analysis" version="1.1.0" description="">
+    <command>
+    "${SOFTDIR}/bin/Perl/bin/perl" "${SOFTDIR}/tools/roc_analysis/RocLine.pl"  -html "$html" -i1 "$input1" -i2 "$input2" 
+    </command>
+    <inputs>
+        <param name="input1" label="Input Peak Table file, Tab-delimited text file." type="data" format="txt"/>
+        <param name="input2" label="Group design file, Tab-delimited text file indicating replicate relationships. sample-to-group in columns given a file with two column (samplename     groupname)" type="data" format="txt"
+        help="Notice: Number of groups should be 2. See help document!"
+        />
+    </inputs>
+    <outputs>
+        <html filename="outputs.html" name="html"/>
+    </outputs>
+</tool>

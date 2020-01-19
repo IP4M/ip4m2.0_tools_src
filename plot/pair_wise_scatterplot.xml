@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<tool id="pair_wise_scatterplot" name="Pairwise scatter plot" version="3.3.3" description="on two samples" >
+    <command>
+    "${SOFTDIR}/bin/Perl/bin/perl" "${SOFTDIR}/tools/plot/pair_wise_scatterplot.pl" -i "$matrix" -w "$w" -h "$h" -o "$output1"  -lm "$lm" -html "$html" -x "$x" -y "$y"
+    </command>
+    <inputs>
+        <param name="matrix" label="Input Peak Table file, Tab-delimited text file." type="data" format="txt"/>
+        <param name="lm" label="Add linear regression fitting line?" type="select">
+                <option value="yes">Yes</option>
+                <option value="no" selected="true">No</option>
+        </param>
+        <param name="x" label="Select sample(X) in Peak Table(numerical represented column) for analysis" help="For example: 2 " type="text" value="2" size="20">
+            <validator type="regex" message="Column number must be positive integer, for example, '2' refers to sample in column 2 used for analysis.">\d+</validator>
+            <validator type="regex" message="Column number should not begin with 0.">[1-9]\d*</validator>
+            <validator type="regex" message="Column number should not be 1, row 1 is header.">([2-9]|[1-9]\d+)</validator>
+        </param> 
+        <param name="y" label="Select sample(Y) in Peak Table(numerical represented column) for analysis" help="For example: 2 " type="text" value="3" size="20">
+            <validator type="regex" message="Column number must be positive integer, for example, '2' refers to sample in column 2 used for analysis.">\d+</validator>
+            <validator type="regex" message="Column number should not begin with 0.">[1-9]\d*</validator>
+            <validator type="regex" message="Column number should not be 1, column 1 is metabolite.">([2-9]|[1-9]\d+)</validator>
+        </param> 
+        <param name="w" label="Width of the graphics region in cm." type="float" value="17.78"/>
+        <param name="h" label="Height of the graphics region in cm." type="float" value="17.78"/>
+    </inputs>
+    <outputs>
+        <data  filename="scatter_plot.pdf" name="output1"/>
+        <html  filename="outputs.html" name="html"/>
+    </outputs>
+</tool>

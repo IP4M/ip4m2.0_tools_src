@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<tool id="comp_id_map_v2" name="Compounds ID mapping" version="1.0" description="">
+    <command>
+    "${SOFTDIR}/bin/Perl/bin/perl" "${SOFTDIR}/tools/pathways/idMapping_v2.pl" -html "$html" -i "$matrix" 
+    </command>
+    <inputs>
+        <param name="matrix" label="A one-column compound name list file in text format." type="data" format="txt" help="See help document!"/>
+    </inputs>
+    <outputs>
+        <html filename="outputs.html" name="html"/>
+    </outputs>
+</tool>

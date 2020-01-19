@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<tool id="inner_normalize" name="Internal standard normalization" version="1.0.0" description="on peak table data">
+    <command>
+    "${SOFTDIR}/bin/Perl/bin/perl" "${SOFTDIR}/tools/table_pretreatment/innerNormal.pl" -html "$html" -i "$matrix" -r "$script_file"  -o "$output"
+    </command>
+    <inputs>
+        <param name="matrix" label="Input Peak Table file, Tab-delimited text file." type="data" format="txt"/>
+        <!--<param name="row" label="Set the standard sample." type="text" value="" size="50"/>-->
+        <param name="col" label="Set the standard compound." type="text" value="" size="50"/>
+    </inputs>
+    <outputs>
+        <data filename="internal_stdNorm_peak_table.txt" name="output"/>
+        <html filename="outputs.html" name="html"/>
+    </outputs>
+
+    <configfiles>
+        <configfile name="script_file">$col</configfile>
+    </configfiles>
+</tool>

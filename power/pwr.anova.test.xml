@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<tool id="pwr_anova_test" name="pwr.anova.test" version="1.2-1" description="power calculations for balanced one way ANOVA">
+    <command>
+    "${SOFTDIR}/bin/Perl/bin/perl" "${SOFTDIR}/tools/power/pwr.anova.test.pl" -k "$k" -n "$n"  -sig "$sig" -power "$power" -output "$output" -html "$html"
+
+    #if( $method.type == "set" ) 
+        -f "$method.f"
+    #else
+        -N1 "$method.N" -u "$method.u" -var "$method.var"
+        #foreach( $rep in $method.reps)
+            "${rep.ni}" "${rep.ui}"
+        #end
+    #end
+    </command>
+    <inputs>
+        <param name="k" label="	Number of groups:" type="text" value="4" help="(k). Exactly one of the parameters 'k','n','f','power' and 'sig.level' must be passed as NULL"/>
+        <param name="n" label="Number of observations (per group):" type="text" value="NULL" help="(n). Exactly one of the parameters 'k','n','f','power' and 'sig.level' must be passed as NULL"/>
+
+       <conditional name="method">
+            <param name="type" label="Effect size by">
+                <option value="set" selected="true">direct setting</option>
+                <option value="cal">calculation</option>
+            </param>
+            <when value="set">
+                <param name="f" label="Effect size:" type="text" value="0.3" help="(f). Exactly one of the parameters 'k','n','f','power' and 'sig.level' must be passed as NULL"/>
+            </when>
+            <when value="cal">
+                <param name="N" label="total number of observations" type="integer" />
+                <param name="u" label="grand mean" type="float" />
+                <param name="var" label="error variance within groups" type="float" />
+                <repeat name="reps" title="group" min="2" default="2">
+                    <param name="ni" label="number of observations in group i" type="integer" />
+                    <param name="ui" label="mean of group i" type="float" />
+                </repeat>
+            </when>
+        </conditional>
+
+        <param name="sig" label="Significance level (Type I error probability):" type="text" value="0.05" help="(sig.level). Exactly one of the parameters 'k','n','f','power' and 'sig.level' must be passed as NULL"/>
+        <param name="power" label="Power of test (1 minus Type II error probability)" type="text" value="0.8" help="(power). Exactly one of the parameters 'k','n','f','power' and 'sig.level' must be passed as NULL"/>
+    </inputs>
+    <outputs>
+        <data  filename="pwr.anova.txt" name="output"/>
+        <html  filename="outputs.html" name="html"/>
+    </outputs>
+</tool>

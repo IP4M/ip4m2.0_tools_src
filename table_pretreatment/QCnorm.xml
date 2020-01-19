@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<tool id="QCnorm" name="Peak table normalization" version="1.0.0" description="based on QC(pooled samples)">
+    <command>
+    "${SOFTDIR}/bin/Perl/bin/perl" "${SOFTDIR}/tools/table_pretreatment/QCnorm.pl" "$html" -i "$matrix" 	-o "$output" -g "$input2"
+    </command>
+    <inputs>
+        <param name="matrix" label="Input Peak Table file, Tab-delimited text file." type="data" format="txt"/>
+    <param name="input2" label="sample-to-QC design file, Tab-delimited text file. sample-to-QC in columns given a file with two column (samplename     QCsamplename)" type="data" format="txt" help="Note: sample and QC must be existed in peak table!"/>
+    </inputs>
+    <outputs>
+        <data filename="QC_norm_pkTable.txt" name="output"/>
+        <html filename="outputs.html" name="html"/>
+    </outputs>
+</tool>

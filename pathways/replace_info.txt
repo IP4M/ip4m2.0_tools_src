@@ -1,0 +1,8 @@
+Α	alpha
+Β	beta
+Γ	gamma
+α	alpha
+β	beta
+γ	gamma
+σ	sigma
+λ	lambda

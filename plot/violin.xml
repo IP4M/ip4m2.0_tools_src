@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<tool id="violin" name="Violin plot " version="2.2.1" description="on peak table">
+    <command>
+    "${SOFTDIR}/bin/Perl/bin/perl"  "${SOFTDIR}/tools/plot/violin.pl" -i "$matrix" -w "$w" -h "$h" -min "$min" -pdf "$output1"  -html "$html"
+    #if( $group.type == "yes" )
+        -s "$group.samples_file"
+    #end
+    </command>
+    <inputs>
+        <param name="matrix" label="Input Peak Table file, Tab-delimited text file." type="data" format="txt"/>
+        <conditional name="group">
+            <param name="type" label="Samples in different groups  drawed with  different color? If provide the group design file, a Tab-delimited text file, samples in one group will be plotted as same color. sample-to-group in columns given a file with two column (samplename	groupname)">
+                <option value="yes">yes</option>
+                <option value="no" selected="true">no</option>
+            </param>
+            <when value="yes">
+                <param name="samples_file" label="Input group design file." type="data" format="txt"/>
+            </when>
+        </conditional>
+        <param name="min" label="Min value, peak area value greater than the cutoff will be analized." type="float" value="1"/>
+<!--
+        <param name="outline" label="Plot outliers?" help="if no, the outliers are not draw" type="select">
+            <option value="T">Yes</option>
+            <option value="F" selected="true">No</option>
+        </param>
+-->        
+        <param name="w" label="Width of the graphics region in cm." type="float" value="25.4"/>
+        <param name="h" label="Height of the graphics region in cm." type="float" value="17.78"/>
+    </inputs>
+    <outputs>
+        <data  filename="violinplot.pdf" name="output1"/>
+        <html  filename="outputs.html" name="html"/>
+    </outputs>
+</tool>

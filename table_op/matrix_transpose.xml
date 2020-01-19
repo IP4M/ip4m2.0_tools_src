@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<tool id="matrix_transpose" name="Transpose" version="1.0">
+    <command>
+    "${SOFTDIR}/bin/Perl/bin/perl" "${SOFTDIR}/tools/table_op/matrix_transpose.pl" -i "$matrix" -o "$output" -html "$html"
+    </command>
+    <inputs>
+        <param name="matrix" label="Input matrix, peak table etc.." type="data" format="txt"/>
+    </inputs>
+    <outputs>
+        <data filename="transposed_matrix.txt" name="output"/>
+        <html filename="outputs.html" name="html"/>
+    </outputs>
+</tool>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<tool id="stat_analysis" name="Statistical analysis" version="1.1"
+      description="between two groups">
+
+    <command>
+        "${SOFTDIR}/bin/Perl/bin/perl" "${SOFTDIR}/tools/workflow/stat_analysis.pl" -matrix "$matrix" -samples_file "$samples_file"  -html "$html"
+    </command>
+
+    <inputs>
+        <param name="matrix" label="Input Peak Table file, Tab-delimited text file:" type="data" format="txt"/>
+        <param name="samples_file" label="Group design file, Tab-delimited text file indicating replicate relationships. sample-to-group in columns given a file with two column (samplename     groupname)" type="data" format="txt" help="Number of groups should be 2."/>
+    </inputs>
+    <outputs>
+        <html filename="outputs.html" name="html"/>
+    </outputs>
+
+</tool>

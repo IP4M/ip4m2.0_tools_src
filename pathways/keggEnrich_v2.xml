@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<tool id="keggEnrich_v2" name="Pathway analysis" version="1.0" description="on Compounds ID mapping result">
+    <command>
+    "${SOFTDIR}/bin/Perl/bin/perl" "${SOFTDIR}/tools/pathways/keggEnrich_v2.pl" -html "$html" -i "$matrix"  -method "$method" -type "$type"  -lib "$lib"
+    </command>
+    <inputs>
+        <param name="matrix" label="Compounds ID mapping results. Must be obtained from Tool: 'Compounds ID mapping' or same format." type="data" format="txt"/>
+        <param name="lib" label="Select a pathway library:" type="select" display="radio">
+            <option value="ame">Eukaryotes; Animals; Arthropods; Insects&#160;&#160;&#160;&#160;Apis mellifera (honey bee)</option>
+            <option value="bim">Eukaryotes; Animals; Arthropods; Insects&#160;&#160;&#160;&#160;Bombus impatiens (common eastern bumble bee)</option>
+            <option value="bmor">Eukaryotes; Animals; Arthropods; Insects&#160;&#160;&#160;&#160;Bombyx mori (domestic silkworm)</option>
+            <option value="dpl">Eukaryotes; Animals; Arthropods; Insects&#160;&#160;&#160;&#160;Danaus plexippus (monarch butterfly)</option>
+            <option value="der">Eukaryotes; Animals; Arthropods; Insects&#160;&#160;&#160;&#160;Drosophila erecta</option>
+            <option value="dme">Eukaryotes; Animals; Arthropods; Insects&#160;&#160;&#160;&#160;Drosophila melanogaster (fruit fly)</option>
+            <option value="haw">Eukaryotes; Animals; Arthropods; Insects&#160;&#160;&#160;&#160;Helicoverpa armigera (cotton bollworm)</option>
+            <option value="mpha">Eukaryotes; Animals; Arthropods; Insects&#160;&#160;&#160;&#160;Monomorium pharaonis (pharaoh ant)</option>
+            <option value="smm">Eukaryotes; Animals; Flatworms&#160;&#160;&#160;&#160;Schistosoma mansoni</option>
+            <option value="cel">Eukaryotes; Animals; Nematodes&#160;&#160;&#160;&#160;Caenorhabditis elegans (nematode)</option>
+            <option value="xla">Eukaryotes; Animals; Vertebrates; Amphibians&#160;&#160;&#160;&#160;Xenopus laevis (African clawed frog)</option>
+            <option value="fab">Eukaryotes; Animals; Vertebrates; Birds&#160;&#160;&#160;&#160;Ficedula albicollis (collared flycatcher)</option>
+            <option value="gga">Eukaryotes; Animals; Vertebrates; Birds&#160;&#160;&#160;&#160;Gallus gallus (chicken)</option>
+            <option value="dre">Eukaryotes; Animals; Vertebrates; Fishes&#160;&#160;&#160;&#160;Danio rerio (zebrafish)</option>
+            <option value="ipu">Eukaryotes; Animals; Vertebrates; Fishes&#160;&#160;&#160;&#160;Ictalurus punctatus (channel catfish)</option>
+            <option value="tru">Eukaryotes; Animals; Vertebrates; Fishes&#160;&#160;&#160;&#160;Takifugu rubripes (torafugu)</option>
+            <option value="bacu">Eukaryotes; Animals; Vertebrates; Mammals&#160;&#160;&#160;&#160;Balaenoptera acutorostrata scammoni (minke whale)</option>
+            <option value="bta">Eukaryotes; Animals; Vertebrates; Mammals&#160;&#160;&#160;&#160;Bos taurus (cow)</option>
+            <option value="bbub">Eukaryotes; Animals; Vertebrates; Mammals&#160;&#160;&#160;&#160;Bubalus bubalis (water buffalo)</option>
+            <option value="cfa">Eukaryotes; Animals; Vertebrates; Mammals&#160;&#160;&#160;&#160;Canis familiaris (dog)</option>
+            <option value="chx">Eukaryotes; Animals; Vertebrates; Mammals&#160;&#160;&#160;&#160;Capra hircus (goat)</option>
+            <option value="csab">Eukaryotes; Animals; Vertebrates; Mammals&#160;&#160;&#160;&#160;Chlorocebus sabaeus (green monkey)</option>
+            <option value="cge">Eukaryotes; Animals; Vertebrates; Mammals&#160;&#160;&#160;&#160;Cricetulus griseus (Chinese hamster)</option>
+            <option value="ecb">Eukaryotes; Animals; Vertebrates; Mammals&#160;&#160;&#160;&#160;Equus caballus (horse)</option>
+            <option value="fca">Eukaryotes; Animals; Vertebrates; Mammals&#160;&#160;&#160;&#160;Felis catus (domestic cat)</option>
+            <option value="ggo">Eukaryotes; Animals; Vertebrates; Mammals&#160;&#160;&#160;&#160;Gorilla gorilla gorilla (western lowland gorilla)</option>
+            <option value="hgl">Eukaryotes; Animals; Vertebrates; Mammals&#160;&#160;&#160;&#160;Heterocephalus glaber (naked mole rat)</option>
+            <option value="hsa" selected="True">Eukaryotes; Animals; Vertebrates; Mammals&#160;&#160;&#160;&#160;Homo sapiens (human)</option>
+            <option value="mcf">Eukaryotes; Animals; Vertebrates; Mammals&#160;&#160;&#160;&#160;Macaca fascicularis (crab-eating macaque)</option>
+            <option value="mcc">Eukaryotes; Animals; Vertebrates; Mammals&#160;&#160;&#160;&#160;Macaca mulatta (rhesus monkey)</option>
+            <option value="mun">Eukaryotes; Animals; Vertebrates; Mammals&#160;&#160;&#160;&#160;Meriones unguiculatus (Mongolian gerbil)</option>
+            <option value="mcal">Eukaryotes; Animals; Vertebrates; Mammals&#160;&#160;&#160;&#160;Mus caroli (Ryukyu mouse)</option>
+            <option value="mmu">Eukaryotes; Animals; Vertebrates; Mammals&#160;&#160;&#160;&#160;Mus musculus (mouse)</option>
+            <option value="mpah">Eukaryotes; Animals; Vertebrates; Mammals&#160;&#160;&#160;&#160;Mus pahari (shrew mouse)</option>
+            <option value="myb">Eukaryotes; Animals; Vertebrates; Mammals&#160;&#160;&#160;&#160;Myotis brandtii (Brandt's bat)</option>
+            <option value="myd">Eukaryotes; Animals; Vertebrates; Mammals&#160;&#160;&#160;&#160;Myotis davidii</option>
+            <option value="ngi">Eukaryotes; Animals; Vertebrates; Mammals&#160;&#160;&#160;&#160;Nannospalax galili (Upper Galilee mountains blind mole rat)</option>
+            <option value="nle">Eukaryotes; Animals; Vertebrates; Mammals&#160;&#160;&#160;&#160;Nomascus leucogenys (northern white-cheeked gibbon)</option>
+            <option value="ocu">Eukaryotes; Animals; Vertebrates; Mammals&#160;&#160;&#160;&#160;Oryctolagus cuniculus (rabbit)</option>
+            <option value="oas">Eukaryotes; Animals; Vertebrates; Mammals&#160;&#160;&#160;&#160;Ovis aries (sheep)</option>
+            <option value="pps">Eukaryotes; Animals; Vertebrates; Mammals&#160;&#160;&#160;&#160;Pan paniscus (bonobo)</option>
+            <option value="ptr">Eukaryotes; Animals; Vertebrates; Mammals&#160;&#160;&#160;&#160;Pan troglodytes (chimpanzee)</option>
+            <option value="pcw">Eukaryotes; Animals; Vertebrates; Mammals&#160;&#160;&#160;&#160;Phascolarctos cinereus (koala)</option>
+            <option value="pon">Eukaryotes; Animals; Vertebrates; Mammals&#160;&#160;&#160;&#160;Pongo abelii (Sumatran orangutan)</option>
+            <option value="rno">Eukaryotes; Animals; Vertebrates; Mammals&#160;&#160;&#160;&#160;Rattus norvegicus (rat)</option>
+            <option value="rbb">Eukaryotes; Animals; Vertebrates; Mammals&#160;&#160;&#160;&#160;Rhinopithecus bieti (black snub-nosed monkey)</option>
+            <option value="rro">Eukaryotes; Animals; Vertebrates; Mammals&#160;&#160;&#160;&#160;Rhinopithecus roxellana (golden snub-nosed monkey)</option>
+            <option value="sbq">Eukaryotes; Animals; Vertebrates; Mammals&#160;&#160;&#160;&#160;Saimiri boliviensis boliviensis (Bolivian squirrel monkey)</option>
+            <option value="ssc">Eukaryotes; Animals; Vertebrates; Mammals&#160;&#160;&#160;&#160;Sus scrofa (pig)</option>
+            <option value="amj">Eukaryotes; Animals; Vertebrates; Reptiles&#160;&#160;&#160;&#160;Alligator mississippiensis (American alligator)</option>
+            <option value="cpic">Eukaryotes; Animals; Vertebrates; Reptiles&#160;&#160;&#160;&#160;Chrysemys picta (western painted turtle)</option>
+            <option value="gja">Eukaryotes; Animals; Vertebrates; Reptiles&#160;&#160;&#160;&#160;Gekko japonicus</option>
+            <option value="sce">Eukaryotes; Fungi; Ascomycetes; Saccharomycetes&#160;&#160;&#160;&#160;Saccharomyces cerevisiae (budding yeast)</option>
+            <option value="ath">Eukaryotes; Plants; Eudicots; Mustard family&#160;&#160;&#160;&#160;Arabidopsis thaliana (thale cress)</option>
+            <option value="pfa">Eukaryotes; Protists; Alveolates; Apicomplexans&#160;&#160;&#160;&#160;Plasmodium falciparum 3D7</option>
+            <option value="tbr">Eukaryotes; Protists; Euglenozoa; Kinetoplasts&#160;&#160;&#160;&#160;Trypanosoma brucei</option>
+            <option value="mln">Prokaryotes; Bacteria; Alphaproteobacteria; Mesorhizobium&#160;&#160;&#160;&#160;Mesorhizobium loti NZP2037</option>
+            <option value="syf">Prokaryotes; Bacteria; Cyanobacteria; Synechococcus&#160;&#160;&#160;&#160;Synechococcus elongatus PCC7942</option>
+            <option value="bsu">Prokaryotes; Bacteria; Firmicutes-Bacilli; Bacillus&#160;&#160;&#160;&#160;Bacillus subtilis subsp. subtilis 168</option>
+            <option value="sau">Prokaryotes; Bacteria; Firmicutes-Bacilli; Staphylococcus&#160;&#160;&#160;&#160;Staphylococcus aureus subsp. aureus N315 (MRSA/VSSA)</option>
+            <option value="spym">Prokaryotes; Bacteria; Firmicutes-Bacilli; Streptococcus&#160;&#160;&#160;&#160;Streptococcus pyogenes M1 476 (serotype M1)</option>
+            <option value="eco">Prokaryotes; Bacteria; Gammaproteobacteria-Enterobacteria; Escherichia&#160;&#160;&#160;&#160;Escherichia coli K-12 MG1655</option>
+            <option value="kpv">Prokaryotes; Bacteria; Gammaproteobacteria-Enterobacteria; Klebsiella&#160;&#160;&#160;&#160;Klebsiella pneumoniae subsp. pneumoniae KPNIH29</option>
+            <option value="kpn">Prokaryotes; Bacteria; Gammaproteobacteria-Enterobacteria; Klebsiella&#160;&#160;&#160;&#160;Klebsiella pneumoniae subsp. pneumoniae MGH 78578 (serotype K52)</option>
+            <option value="kva">Prokaryotes; Bacteria; Gammaproteobacteria-Enterobacteria; Klebsiella&#160;&#160;&#160;&#160;Klebsiella variicola At-22</option>
+            <option value="ppu">Prokaryotes; Bacteria; Gammaproteobacteria-Others; Pseudomonas&#160;&#160;&#160;&#160;Pseudomonas putida KT2440</option>
+            <option value="tma">Prokaryotes; Bacteria; Thermotogae; Thermotoga&#160;&#160;&#160;&#160;Thermotoga maritima MSB8</option>
+        </param>
+        <param name="type" label="Specify over representation analysis algorithm:" type="select">
+            <option value="hyperg" selected="true">Hypergeometric Test</option>
+            <option value="fisher">Fisher's Exact Test</option>
+        </param>
+        <param name="method" label="Specify pathway topology analysis algorithm:" type="select">
+            <option value="rbc" selected="true">Relative-betweeness Centrality</option>
+            <option value="dgr">Out-degree Centrality</option>
+            <option value="tdc">Total Degree Centrality</option>
+            <option value="occ">Out Closeness Centrality</option>
+            <option value="icc">In Closeness Centrality</option>
+            <option value="tcc">Total Closeness Centrality</option>
+            <option value="ec">Evcent Centrality</option>
+        </param>
+    </inputs>
+    <outputs>
+        <html filename="outputs.html" name="html"/>
+    </outputs>
+</tool>

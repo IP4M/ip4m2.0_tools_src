@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<tool id="metams_runGCv2" name="metaMS.runGC" version="2.1.1" description="Peak picking using metaMS package">
+
+    <command>
+    "${SOFTDIR}/bin/Perl/bin/perl" "${SOFTDIR}/tools/rungc/metams_runGC_v2.pl" -i "$script_file"  -peakspectra "$peakspectra" -html "$html" -peaktable2 "$peaktable2" -normpeakspectra "$normpeakspectra" -nSlaves "$nSlaves"
+    #if( $options_rtrange.option == "show")
+        -rtrange "$options_rtrange.rtrange"
+    #end
+
+
+    ##if( $options_mzrange.option == "show")
+    ##    -mzrange "$options_mzrange.mzrange"
+    ##end
+
+    ##if( $options_db.option == "show")
+    ##    -db_input "$options_db.db_input"
+    ##end
+
+    #if( $settings.setting == "usersettings")
+        -param "user"
+        -fwhm "$settings.fwhm"
+        -rtdiff "$settings.rtdiff"
+        -minfeat "$settings.minfeat"
+        -simthreshold "$settings.simthreshold"
+        -minclassfraction "$settings.minclassfraction"
+        -minclasssize "$settings.minclasssize"
+    #else
+        -param "default"
+    #end
+    </command>
+
+    <inputs>
+        <param name="input" type="data" format="cdf,mzXML,mzML" label="Please select multiple cdf/mzXML/mzML files" help="cdf/mzXML/mzML format." multiple="true"/>
+        <conditional name="options_rtrange">
+           <param name="option" label="RT range option " >
+               <option value="show">show</option>
+               <option value="hide" selected="true">hide</option>
+           </param>
+           <when value="show">
+               <param name="rtrange" type="text" value="5,25" label="RTrange" help="RT range to process in minutes, for example 5,25" >
+               </param>
+           </when>
+           <when value="hide" />
+        </conditional>
+        <!--
+        <conditional name="options_mzrange">
+           <param name="option" label="MZ range option " >
+               <option value="show">show</option>
+               <option value="hide" selected="true">hide</option>
+           </param>
+           <when value="show">
+               <param name="mzrange" type="text" value="" label="MZrange" help="MZ range retained for the analysis, for example 50,500" >
+               </param>
+           </when>
+           <when value="hide" />
+        </conditional>
+        -->
+        <!--
+        <conditional name="options_db">
+            <param name="option" label="Use Personnal DataBase option?" help="database containing the spectra of the pure standards. At least the following fields should be present: Name, std.rt, pspectrum and monoMW.">
+                <option value="show">yes</option>
+                <option value="hide" selected="true">no</option>
+            </param>
+            <when value="show">
+                <param name="db_input" type="data" format="msp" label="DB file in msp format" help="A database file as needed for DB option in runGC" />
+            </when>
+            <when value="hide" />
+        </conditional>
+        -->
+	    <conditional name="settings">
+            <param name="setting" label="Settings" help="Choose the settings used for." >
+                <option value="gcdefault" selected="true">GC Default</option>
+			    <option value="usersettings" >User Defined</option>
+		    </param>
+            <when value="gcdefault">
+
+	        </when>
+		    <when value="usersettings">
+			    <param name="fwhm" type="integer" value="5" label="FWHM" help="The FWHM of your peaks (matchedFilter method is used)" />
+
+                <param name="rtdiff" type="float" value="0.05" label="RT_Diff" help="The allowed RT shift in minutes between same molecule in different sample" />
+                <param name="minfeat" type="integer" value="5" label="Min_Features" help="The minimum number of ion in a mass spectra to consider it a molecule" />
+                <param name="simthreshold" type="float" value="0.70" label="similarity_threshold" help="The minimum similarity allowed between peaks mass spectra to be considered as equal" />
+                <param name="minclassfraction" type="float" value="0.5" label="min.class.fract" help="The fraction of samples in which a pseudospectrum is present before it is regarded as an unknown" />
+                <param name="minclasssize" type="integer" value="3" label="min.class.size" help="The absolute number of samples in which a pseudospectrum is present before it is regarded as an unknown" />
+            </when>
+	     </conditional>
+         <param name="nSlaves" type="integer" value="2" label="Number of cores(CPU) to be used in peak picking."  />
+    </inputs>
+
+    <outputs>
+        <data name="peaktable2"  filename="gcms_raw_pkTable.txt" />
+        <data name="peakspectra"  filename="gcms_mass_spectra.msp" />
+        <data name="normpeakspectra"  filename="gcms_mass_spectra_999norm.msp" />
+        <html filename="outputs.html" name="html"/>
+    </outputs>
+    <configfiles>
+        <configfile name="script_file">$input</configfile>
+    </configfiles>
+</tool>

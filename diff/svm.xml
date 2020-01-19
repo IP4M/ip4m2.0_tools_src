@@ -1,0 +1,88 @@
+<tool id="svm" name="Support vector machine" version="1.6.8">
+    <command>
+    "${SOFTDIR}/bin/Perl/bin/perl" "${SOFTDIR}/tools/diff/svm.pl" -input1 "$input1" -input2 "$input2" -scale "$zscal"  -kernel  "$kernel_opts.kernel" 
+    #if( $kernel_opts.kernel == "polynomial" )
+        #if( $kernel_opts.gamma_opts.type == "user")
+            -gamma "$kernel_opts.gamma_opts.gamma"
+        #end
+        -coef0 "$kernel_opts.coef0" -degree "$kernel_opts.degree"
+    #elseif( $kernel_opts.kernel == "radial" )
+        #if( $kernel_opts.gamma_opts.type == "user")
+            -gamma "$kernel_opts.gamma_opts.gamma"
+        #end
+    #elseif( $kernel_opts.kernel == "sigmoid" )
+        #if( $kernel_opts.gamma_opts.type == "user")
+            -gamma "$kernel_opts.gamma_opts.gamma"
+        #end
+        -coef0 "$kernel_opts.coef0" 
+    #end
+    -cost "$cost" -tolerance "$tolerance" -epsilon "$epsilon"
+    -html "$html" 
+    </command>
+    <inputs>
+        <param name="input1" label="Input Peak Table file, Tab-delimited text file." type="data" format="txt"/>
+        <param name="input2" label="Group design file, Tab-delimited text file indicating replicate relationships. sample-to-group in columns given a file with two column (samplename     groupname)" type="data" format="txt"
+        help="See help document!"
+        />
+        <!--
+        <param name="zscal" label="Scaling and centering the row across all the samples?" type="select" >
+            <option value="TRUE">Yes</option>
+            <option value="FALSE" selected="true">No</option>
+        </param>
+        -->
+        <param name="zscal"  type="hidden" value="FALSE">
+            <option value="TRUE">Yes</option>
+            <option value="FALSE" selected="true">No</option>
+        </param>
+        <conditional name="kernel_opts">
+            <param name="kernel" label="the kernel used in training and predicting"  help="See help document!">
+                <option value="linear" selected="true">linear</option>
+                <option value="polynomial">polynomial</option>
+                <option value="radial">radial</option>
+                <option value="sigmoid">sigmoid</option>
+            </param>
+            <when value="polynomial">
+                <conditional name="gamma_opts">
+                    <param name="type" label="gamma. parameter needed for kernel of type polynomial."  help="default: 1/(data dimension)">
+                        <option value="default" selected="true">default</option>
+                        <option value="user">set by user</option>
+                    </param>
+                    <when value="user">
+                        <param name="gamma" type="float" value="" label="gamma." />
+                    </when>
+                </conditional>
+                <param name="coef0" type="float" value="0" label="coef0. parameter needed for kernel of type polynomial." help="default: 0"/>
+                <param name="degree" type="integer" value="3" label="degree. parameter needed for kernel of type polynomial."  help="default: 3"/>
+            </when>
+            <when value="radial">
+                <conditional name="gamma_opts">
+                    <param name="type" label="gamma. parameter needed for kernel of type radial."  help="default: 1/(data dimension)">
+                        <option value="default" selected="true">default</option>
+                        <option value="user">set by user</option>
+                    </param>
+                    <when value="user">
+                        <param name="gamma" type="float" value="" label="gamma." />
+                    </when>
+                </conditional>
+            </when>
+            <when value="sigmoid">
+                <conditional name="gamma_opts">
+                    <param name="type" label="gamma. parameter needed for kernel of type sigmoid."  help="default: 1/(data dimension)">
+                        <option value="default" selected="true">default</option>
+                        <option value="user">set by user</option>
+                    </param>
+                    <when value="user">
+                        <param name="gamma" type="float" value="" label="gamma." />
+                    </when>
+                </conditional>
+                <param name="coef0" type="float" value="0" label="coef0. parameter needed for kernel of type sigmoid." help="default: 0"/>
+            </when>
+        </conditional>
+        <param name="cost" type="float" value="1" label="cost of constraints violation.(default: 1)" help="it is the 'C'-constant of the regularization term in the Lagrange formulation."/>
+        <param name="tolerance" type="float" value="0.001" label="tolerance of termination criterion (default: 0.001)" help="tolerance."/>
+        <param name="epsilon" type="float" value="0.1" label="epsilon in the insensitive-loss function (default: 0.1)" help="epsilon."/>
+    </inputs>
+    <outputs>
+        <html  filename="outputs.html" name="html"/>
+    </outputs>
+</tool>

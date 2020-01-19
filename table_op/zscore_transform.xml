@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<tool id="zscore_transform" name="Peak table zscore transform" version="1.0" description="">
+    <command>"${SOFTDIR}/bin/Perl/bin/perl"
+        "${SOFTDIR}/tools/table_op/zscore_transform.pl" -i "$matrix" -o "$output" -html "$html"
+
+    </command>
+    <inputs>
+        <param name="matrix" label="Input Peak Table file, Tab-delimited text file:" type="data" format="txt"/>
+    </inputs>
+    <outputs>
+        <data filename="zscore_transformed_pkTable.txt" name="output"/>
+        <html filename="outputs.html" name="html"/>
+    </outputs>
+</tool>

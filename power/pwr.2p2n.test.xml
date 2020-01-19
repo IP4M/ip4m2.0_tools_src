@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<tool id="pwr_2p2n_test" name="pwr.2p2n.test" version="1.2-1" description="power calculations for two proportions (unequal n)">
+    <command>
+    "${SOFTDIR}/bin/Perl/bin/perl" "${SOFTDIR}/tools/power/pwr.2p2n.test.pl"  -n1 "$n1" -n2 "$n2" -sig "$sig" -power "$power" -alternative "$alternative" -output "$output" -html "$html"
+    #if( $method.type == "set" ) 
+        -h "$method.h"
+    #else
+        -p1 "$method.p1" -p2 "$method.p2" 
+    #end
+    </command>
+    <inputs>
+         <conditional name="method">
+            <param name="type" label="Effect size by">
+                <option value="set" selected="true">direct setting</option>
+                <option value="cal">calculation</option>
+            </param>
+            <when value="set">
+                 <param name="h" label="Effect size:" type="text" value="0.3" help="(h). Exactly one of the parameters 'h','n', 'power' and 'sig.level' must be passed as NULL"/>
+            </when>
+            <when value="cal">
+                <param name="p1" label="p1:" type="float" >
+                    <validator type="in_range" min="0" />
+                </param>
+                <param name="p2" label="p2:" type="float" >
+                    <validator type="in_range" min="0" />
+                </param>
+            </when>
+        </conditional>
+        <param name="n1" label="Number of observations in the first sample:" type="text" value="200" help="(n1). Exactly one of the parameters 'h','n1', 'n2', 'power' and 'sig.level' must be passed as NULL"/>
+        <param name="n2" label="Number of observationsz in the second sample:" type="text" value="NULL" help="(n2). Exactly one of the parameters 'h','n1', 'n2', 'power' and 'sig.level' must be passed as NULL"/>
+        <param name="sig" label="Significance level (Type I error probability):" type="text" value="0.05" help="(sig.level). Exactly one of the parameters 'h','n1', 'n2', 'power' and 'sig.level' must be passed as NULL"/>
+        <param name="power" label="Power of test (1 minus Type II error probability)" type="text" value="0.8" help="(power). Exactly one of the parameters 'h','n1', 'n2', 'power' and 'sig.level' must be passed as NULL"/>
+        <param name="alternative" label="Specify the alternative hypothesis:" type="select" help="(alternative).">
+            <option value="two.sided"  selected="true">two.sided</option>
+            <option value="greater">greater</option>
+            <option value="less">less</option>
+        </param>
+    </inputs>
+    <outputs>
+        <data  filename="pwr.2p2n.txt" name="output"/>
+        <html  filename="outputs.html" name="html"/>
+    </outputs>
+</tool>

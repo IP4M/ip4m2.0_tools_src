@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<tool id="plot_venn_files" name="Plot venn diagram" version="3.3.3" description="on metabolites lists">
+    <command>
+    #set( $label_list = [] )
+    #foreach( $condition in $conditions )
+        #set( $null_ = $label_list.add( $condition.name ) )
+    #end
+
+    #set( $sample_list = [] )
+    #foreach( $condition in $conditions )
+        #set( $null_ = $sample_list.add( $condition.sample ) )
+    #end
+
+    #set( $samples = $StringUtils.join( $sample_list, "__FS__" ) )
+    #set( $labels = $StringUtils.join( $label_list, "__FS__" ) )
+
+    "${SOFTDIR}/bin/Perl/bin/perl" "${SOFTDIR}/tools/plot/venn.pl" -f "$samples" -l "$labels" -dat "$im" -o "$pdf" 
+     -w "$w" -h "$h" -html "$html"
+    </command>
+    <inputs>
+        <repeat name="conditions" title="Samples" min="2" max="5" default="2">
+            <param name="name" label="Sample Name" type="text">
+                <validator type="regex" message="Wrong letters">[\w\d_]+</validator>
+            </param>
+            <param name="sample" label="Input identifiers list file" type="data" format="txt,List"/>
+        </repeat>
+        <param name="w" label="Width of the graphics region in cm." type="float" value="22.86"/>
+        <param name="h" label="Height of the graphics region in cm." type="float" value="22.86"/>
+    </inputs>
+    <outputs>
+        <data filename="venn_data.txt" name="im"/>
+        <data filename="venn_plot.pdf" name="pdf"/>
+        <html filename="outputs.html" name="html"/>
+    </outputs>
+</tool>

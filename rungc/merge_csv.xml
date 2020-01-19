@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<tool id="merge_csv" name="Merge LECO CSV files" version="1.0" description="to peak table">
+
+    <command>
+    #if($method.type == "rt")
+        "${SOFTDIR}/bin/Perl/bin/perl" "${SOFTDIR}/tools/rungc/merge_csv.pl" -i "$script_file" -peaktable "$peaktable"  -html "$html" -peaktable2 "$peaktable2" -rtdiff "$method.rtdiff"   
+    #else
+        "${SOFTDIR}/bin/Perl/bin/perl" "${SOFTDIR}/tools/rungc/merge_csv_order.pl" -i "$script_file" -peaktable "$peaktable"  -html "$html" -peaktable2 "$peaktable2"  
+    #end
+    
+     
+    </command>
+
+    <inputs>
+        <conditional name="method">
+            <param name="type" label="Merge method:">
+                <option value="dir" selected="true">same mass and one by one according to rt order.</option>
+                <option value="rt"  >same mass and rt difference within the cutoff.</option>
+            </param>
+            <when value="rt">
+                <param name="input" type="data" format="csv" label="Please select multiple LECO CSV files" help="LECO csv format." multiple="true"/>
+                <param name="rtdiff" type="float" value="0.1" label="RT difference cutoff ." help="The allowed RT difference cuttoff for merging between same mass compound in different sample." />
+            </when>
+            <when value="dir">
+                <param name="input" type="data" format="csv" label="Please select multiple LECO CSV files" help="LECO csv format." multiple="true"/>
+            </when>
+        </conditional>
+
+    </inputs>
+
+    <outputs>
+        <data name="peaktable"  filename="mreged_info.txt" />
+        <data name="peaktable2"  filename="merged_pkTable.txt" />
+        <html filename="outputs.html" name="html"/>
+    </outputs>
+
+    <configfiles>
+        <configfile name="script_file">$method.input</configfile>
+    </configfiles>
+</tool>

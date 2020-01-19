@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<tool id="retri_rows" name="Retrieve rows from peak table" version="1.0" description="using metabolites list file">
+    <command>
+    "${SOFTDIR}/bin/Perl/bin/perl" "${SOFTDIR}/tools/table_op/retri_rows.pl" -i "$matrix" -g "$samples_file" -h "y" -o "$output" -html "$html"
+    </command>
+    <inputs>
+        <param name="matrix" label="Input Peak Table file, Tab-delimited text file:" type="data" format="txt"/>
+        <param name="samples_file" label="A one-column metabolites list file " type="data" format="txt" help="Tab-delimited text file that the first column is metabolites is also supported."/>
+        <!--<param name="h" label="Is header exist in peak table file?" type="boolean" checked="true" truevalue="y" falsevalue="n"/>-->
+    </inputs>
+    <outputs>
+        <data  filename="picked_pkTable.txt" name="output"/>
+        <html  filename="outputs.html" name="html"/>
+    </outputs>
+</tool>

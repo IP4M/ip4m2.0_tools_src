@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<tool id="data_replace" name="Zero Filling" version="1.0.0" description="on peak table data">
+    <command>
+    "${SOFTDIR}/bin/Perl/bin/perl" "${SOFTDIR}/tools/table_pretreatment/dataReplace.pl" -html "$html" -i "$matrix" 
+	#if( $method.type == "min" )
+	  -m "min" -a "$method.a"
+	#elseif( $method.type == "knn" )
+	  -m "knn" -k "$method.k"
+	#elseif( $method.type == "user" )
+	  -m "user" -val "$method.val" 
+    #else
+      -m "qrilc"
+	#end
+	-o "$output"
+    </command>
+    <inputs>
+        <param name="matrix" label="Input Peak Table file, Tab-delimited text file." type="data" format="txt"/>
+        <conditional name="method">
+            <param name="type" label="Zero filling method:">
+                <option value="min" selected="true">Replace with a*min value</option>
+                <option value="user">Replace with user specified value</option>
+                <option value="knn" >KNN</option>
+                <option value="qrilc">qrilc</option>
+            </param>
+            <when value="min">
+                <param name="a" label="coefficient a." type="float" value="0.1"/>
+            </when>
+            <when value="knn">
+                <param name="k" label="Number of neighbors to be used in the imputation." type="integer" value="10" help="k. default 10."/>
+            </when>
+            <when value="user">
+                <param name="val" label="User specified value." type="float" value="0.001"/>
+            </when>
+        </conditional>
+    </inputs>
+    <outputs>
+        <data filename="zero_filled_pkTable.txt" name="output"/>
+        <html filename="outputs.html" name="html"/>
+    </outputs>
+</tool>

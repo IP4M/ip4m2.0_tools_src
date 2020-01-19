@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<tool id="inter_cor" name="Inter features correlation  analysis" version="3.3.3" >
+    <command>
+    "${SOFTDIR}/bin/Perl/bin/perl" "${SOFTDIR}/tools/cor_dist/inter_cor.pl" -i1 "$matrix" -i2 "$matrix2" -html "$html"  -corrected "$corrected" -pcut "$pcut" -mtcuf "$mtcuf" -rcuf "$rcuf"
+    -method "$method" -scale "$zscal"
+    </command>
+    <inputs>
+        <param name="matrix" label="Input Peak Table file, Tab-delimited text file." type="data" format="txt"/>
+        <param name="matrix2" label="Input other features table file, same as Peak Table, Tab-delimited text file." type="data" format="txt"/>
+        <param name="zscal" label="Scaling and centering the row across all the samples?" type="select" >
+            <option value="TRUE">Yes</option>
+            <option value="FALSE" selected="true">No</option>
+        </param>   
+        <param name="method" label="Which correlation coefficient is to be used for the test:" type="select">
+            <option value="pearson">Pearson</option>
+            <option value="spearman" selected="True">Spearman</option>
+            <option value="kendall">Kendall</option>
+        </param>
+	    <param name="corrected" label="Method for multiple testing correction: " type="select" >
+            <option value="fdr" selected="true">FDR</option>
+            <option value="bonferroni" >Bonferroni</option>
+            <option value="holm">Holm</option>
+        </param>
+        <param name="pcut" type="float" value="0.05" label="P-value  threshold:" help="Must be between 0 and 1">
+            <validator type="in_range" min="0" max="1"/>
+        </param>
+        <param name="mtcuf" type="float" value="1" label="Corrected P-value  threshold:" help="Must be between 0 and 1">
+            <validator type="in_range" min="0" max="1"/>
+        </param>
+        <param name="rcuf" type="float" value="0.8" label="Correlation coefficient threshold:" help="Must be between 0 and 1">
+            <validator type="in_range" min="0" max="1"/>
+        </param>
+    </inputs>
+    <outputs>
+        <html  filename="outputs.html" name="html"/>
+    </outputs>
+</tool>

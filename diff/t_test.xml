@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<tool id="anova" name="Student T-test" version="1.3" description="between two independent or paired groups">
+    <command>
+    "${SOFTDIR}/bin/Perl/bin/perl" "${SOFTDIR}/tools/diff/t_test.pl" -o "$output" -i "$input2" -g "$input1" -corrected "$corrected" -html "$html" -paired "$paired" -var_equal "$var_equal" -thrN "$thrN" -o2 "$output1"
+    </command>
+    <inputs>
+        <param name="input2" label="Input Peak Table file, Tab-delimited text file." type="data" format="txt"/>
+        <param name="input1" label="Group design file, Tab-delimited text file indicating replicate relationships. sample-to-group in columns given a file with two column (samplename     groupname)" type="data" format="txt"
+        help="Number of groups should be 2. For paired t-test, pairs are according to the order in each two groups. For example, A-group-first-sample and B-group-first-sample are a pair. Note that, for paired test, number of  samples must be equal in the two groups. See help document!"
+        />
+
+	    <param name="paired" label="Whether you want a paired t-test? " type="select" display="radio">
+            <option value="T" >Yes</option>
+            <option value="F" selected="true">No</option>
+        </param>
+
+	    <param name="var_equal" label="Whether to treat the two variances as being equal? " type="select" display="radio" help="If 'Yes' then the pooled variance is used to estimate the variance otherwise the Welch (or Satterthwaite) approximation to the degrees of freedom is used.">
+            <option value="T" >Yes</option>
+            <option value="F" selected="true">No</option>
+        </param>
+
+	    <param name="corrected" label="Method for multiple testing correction: " type="select" display="radio">
+            <option value="fdr" selected="true">FDR</option>
+            <option value="bonferroni" >Bonferroni</option>
+            <option value="holm">Holm</option>
+        </param>
+        <param name="thrN" type="float" value="0.05" label="Corrected p-value significance threshold:" help="Must be between 0 and 1">
+            <validator type="in_range" min="0" max="1"/>
+        </param>
+    </inputs>
+    <outputs>
+        <data  filename="t_test_results.txt" name="output"/>
+        <data  filename="t_test_significant_results.txt" name="output1"/>
+        <html  filename="outputs.html" name="html"/>
+    </outputs>
+</tool>

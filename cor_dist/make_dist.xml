@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<tool id="make_dist" name="Generate distance matrix" version="3.3.3" description="on peak table">
+    <command>
+    "${SOFTDIR}/bin/Perl/bin/perl" "${SOFTDIR}/tools/cor_dist/make_dist.pl" -i "$matrix" -m "$metric" -o "$output" -log "$log" -html "$html"
+    </command>
+    <inputs>
+        <param name="matrix" label="Input Peak Table file or transposed Peak Table file, Tab-delimited text file." type="data" format="txt"/>
+        <param name="log" label="Data Transform Method" type="select" help="process before distance calculation.">
+            <option value="none">None</option>
+            <option value="log2" selected="true">log2_transform: log2(v+1)</option>
+            <option value="log2_center">log2_transform_row_median_center: scale(log2(v+1))</option>
+            <option value="center">row_median_center: scale(v)</option>
+        </param>
+        <param name="metric" label="distance calculate method" type="select">
+            <option value="euclidean" selected="true">euclidean</option>
+            <option value="maximum">maximum</option>
+            <option value="manhattan">manhattan</option>
+            <option value="canberra">canberra</option>
+            <option value="binary">binary</option>
+            <option value="minkowski">minkowski</option>
+        </param>
+    </inputs>
+    <outputs>
+        <data  filename="distance_matrix.txt" name="output"/>
+        <html  filename="outputs.html" name="html"/>
+    </outputs>
+</tool>

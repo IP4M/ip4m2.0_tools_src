@@ -1,0 +1,66 @@
+<tool id="rf" name="Random forest" version="4.6.14">
+    <command>
+     "${SOFTDIR}/bin/Perl/bin/perl" "${SOFTDIR}/tools/diff/randomforeast.pl" -input1 "$input1" -input2 "$input2"  -scale "$zscal" -ntree "$ntree" -replace "$replace" 
+     #if($mtry_opts.type == "user")
+        -mtry "$mtry_opts.mtry"
+     #end
+     #if($nodesize_opts.type == "user")
+        -nodesize "$nodesize_opts.nodesize"
+     #end
+     #if($maxnodes_opts.type == "user")
+        -maxnodes "$maxnodes_opts.maxnodes"
+     #end
+    -html "$html" 
+    </command>
+    <inputs>
+        <param name="input1" label="Input Peak Table file, Tab-delimited text file." type="data" format="txt"/>
+        <param name="input2" label="Group design file, Tab-delimited text file indicating replicate relationships. sample-to-group in columns given a file with two column (samplename     groupname)" type="data" format="txt"
+        help="See help document!"
+        />
+        <!--
+        <param name="zscal" label="Scaling and centering the row across all the samples?" type="select" >
+            <option value="TRUE">Yes</option>
+            <option value="FALSE" selected="true">No</option>
+        </param>
+        -->
+        <param name="zscal"  type="hidden" value="FALSE">
+            <option value="TRUE">Yes</option>
+            <option value="FALSE" selected="true">No</option>
+        </param>
+        <param name="ntree" type="integer" value="500" label="Number of trees to grow. This should not be set to too small a number." />
+        <conditional name="mtry_opts">
+            <param name="type" label="mtry. Number of variables randomly sampled as candidates at each split."  help="Note that the default values are different for classification (sqrt(p) where p is number of variables(compounds)) and regression (p/3)">
+                <option value="default" selected="true">default</option>
+                <option value="user">set by user</option>
+            </param>
+            <when value="user">
+                <param name="mtry" type="integer" value="" label="mtry." />
+            </when>
+        </conditional>
+        <param name="replace" label="Should sampling of cases be done with or without replacement?" type="select" help="default: Yes.">
+            <option value="TRUE" selected="true">yes</option>
+            <option value="FALSE">no</option>
+        </param>
+        <conditional name="nodesize_opts">
+            <param name="type" label="nodesize. Minimum size of terminal nodes. Setting this number larger causes smaller trees to be grown (and thus take less time)."  help="Note that the default values are different for classification (1) and regression (5).">
+                <option value="default" selected="true">default</option>
+                <option value="user">set by user</option>
+            </param>
+            <when value="user">
+                <param name="nodesize" type="integer" value="" label="nodesize." />
+            </when>
+        </conditional>
+        <conditional name="maxnodes_opts">
+            <param name="type" label="maxnodes. Maximum number of terminal nodes trees in the forest can have."  help="By default, trees are grown to the maximum possible (subject to limits by nodesize).">
+                <option value="default" selected="true">default</option>
+                <option value="user">set by user</option>
+            </param>
+            <when value="user">
+                <param name="maxnodes" type="integer" value="" label="maxnodes." />
+            </when>
+        </conditional>
+    </inputs>
+    <outputs>
+        <html  filename="outputs.html" name="html"/>
+    </outputs>
+</tool>

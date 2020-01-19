@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<tool id="metams_runLC" name="metaMS.runLC" version="1.10.0" description="LC-MS data preprocess using metaMS package">
+
+    <command>
+    "${SOFTDIR}/bin/Perl/bin/perl" "${SOFTDIR}/tools/runlc/metams_runLC.pl" -i "$script_file"   -html "$html" -output1 "$output1" -output2 "$output2" -nSlaves "$nSlaves"
+    #if( $options_rtrange.option == "show")
+        -rtrange "$options_rtrange.rtrange"
+    #end
+
+    #if( $options_mzrange.option == "show")
+        -mzrange "$options_mzrange.mzrange"
+    #end
+
+        -settings  "user"
+        -peakpicking "$peakpicking.method"
+        #if($peakpicking.method == "centWave")
+            -ppm "$peakpicking.ppm"
+            -peakwidth "$peakpicking.peakwidth"
+            -prefilter "$peakpicking.prefilter"
+        #else
+            -step "$peakpicking.step"
+            -fwhm "$peakpicking.fwhm"
+            -max "$peakpicking.max"
+            -snthresh "$peakpicking.snthresh"
+        #end
+        -minfrac "$minfrac"
+        -minsamp "$minsamp"
+        -mzwid "$mzwid"
+        -bws "$bws"
+        -missingratio "$missingratio"
+        -extraratio "$extraratio"
+        -retcor "$retcor.method"
+        #if($retcor.method == "linear")
+            -family "$retcor.family"
+        #else
+            -profStep "$retcor.profStep"
+        #end
+        -fillPeaks "$fillPeaks"
+
+        -camera_perfwhm "$camera_perfwhm"
+        -camera_cor_eic_th "$camera_cor_eic_th"
+        -camera_ppm "$camera_ppm"
+        -intensity "$intensity"
+        -polarity "$polarity"
+    </command>
+
+    <inputs>
+        <param name="input" type="data" format="cdf,mzXML,mzML" label="Please select multiple cdf/mzXML/mzML files" help="cdf/mzXML/mzML format." multiple="true"/>
+        <param name="intensity" type="select" label="The intensity measure used in the output peaktable:" help="[intensity] The default one is the total intensity (integral) of the feature on the detected chromatographic peak.">
+              <option value="into" selected="true">integrated area of original (raw) peak</option>
+              <option value="maxo" >maximum intensity of original (raw) peak</option>
+         </param>
+
+               <conditional name="peakpicking">
+                    <param name="method" label="PeakPicking: Method to use for peak detection:" help="">
+                        <option value="centWave" >centWave</option>
+                        <option value="matchedFilter" selected="true">matchedFilter</option>
+                    </param>
+                    <when value="centWave">
+                        <param name="ppm" type="integer" value="5" label="Max tolerated ppm m/z deviation in consecutive scans in ppm (parts per million)" help="[ppm]" />
+                        <param name="peakwidth" type="text" value="15,40" label="Min,Max peak width in seconds" help="[peakwidth]" />
+                        <param name="prefilter" type="text" value="3,10000" label="Prefilter step for the first phase" help="[prefilter] Separate by coma k,I. Mass traces are only retained if they contain at least 'k' peaks with intensity >= 'I'"/>
+                    </when>
+                    <when value="matchedFilter">
+                        <param name="step" type="float" value="0.1" label="Step size to use for profile generation" help="[step] The peak detection algorithm creates extracted ion base peak chromatograms (EIBPC) on a fixed step size" />
+                        <param name="fwhm" type="integer" value="20" label="Full width at half maximum of matched filtration gaussian model peak" help="[fwhm] Only used to calculate the actual sigma" />
+                        <param name="max" type="integer" value="50" label="Maximum number of peaks per extracted ion chromatogram" help="[max]" />
+                        <param name="snthresh" type="integer" value="4" label="Signal to noise ratio cutoff" help="[snthresh]" />
+                    </when>
+                </conditional>
+                <param name="minfrac" type="float" value="0.3" label="Alignment: Minimum fraction of samples necessary in at least one of the sample groups for it to be a valid group" help="[min.class.fraction]" />
+                <param name="minsamp" type="float" value="3" label="Alignment: Minimum number of samples necessary in at least one of the sample groups for it to be a valid group" help="[min.class.size]" />
+                <param name="mzwid" type="float" value="0.1" label="Alignment: Width of overlapping m/z slices to use for creating peak density chromatograms and grouping peaks across samples" help="[mzwid]  " />
+                <param name="bws" type="text" value="130,10" label="Alignment: The two bandwidths used for grouping before and after retention time aligment" help="[bws]" />
+                <param name="missingratio" type="float" value="0.2" label="RetCor: Ratio of extra peaks to allow in retention time correction correction groups" help="[missingratio]" />
+                <param name="extraratio" type="float" value="0.1" label="RetCor: Ratio of missing samples to allow in retention time correction groups" help="[extraratio]" />
+                
+                <conditional name="retcor">
+                    <param name="method" label="RetCor: Method to use for retention time correction:" help="">
+                        <option value="linear"  selected="true">linear</option>
+                        <option value="obiwarp">obiwarp</option>
+                    </param>
+                    <when value="linear">
+                        <param name="family" type="select" label="Family:" help="If gaussian fitting is by least-squares with no outlier removal, and if symmetric a re descending M estimator is used with Tukey's biweight function, allowing outlier removal">
+                            <option value="gaussian" >gaussian</option>
+                            <option value="symmetric" selected="true">symmetric</option>
+                        </param>
+                    </when>
+                    <when value="obiwarp">
+                        <param name="profStep" type="float" value="0.2" label="Step size (in m/z)  to use for profile generation from the raw data files" help="[profStep]" />
+                    </when>
+                </conditional>
+                <param name="fillPeaks" type="select" label="FillPeaks: Fill peaks?" >
+                    <option value="TRUE" selected="true">Yes</option>
+                    <option value="FALSE" >No</option>
+                </param>
+       
+        <param name="polarity" type="select" label="CAMERA: The polarity of the analysis used for CAMERA annotation:" help="[polarity] Either 'positive' or 'negative'.">
+              <option value="positive" selected="true">positive</option>
+              <option value="negative" >negative</option>
+         </param>
+        <param name="camera_perfwhm" type="float" value="0.6" label="CAMERA: Percentage of the width of the FWHM in FWHM-Grouping" help="[perfwhm]" />
+        <param name="camera_cor_eic_th" type="float" value="0.7" label="CAMERA: Correlation threshold for EIC correlation in EIC correlation grouping" help="[cor_eic_th]" />
+        <param name="camera_ppm" type="float" value="5" label="CAMERA: ppm error for the search in Annotate isotope peaks" help="[ppm]  " />
+        <conditional name="options_rtrange">
+           <param name="option" label="RT range option " >
+               <option value="show">show</option>
+               <option value="hide" selected="true">hide</option>
+           </param>
+           <when value="show">
+               <param name="rtrange" type="text" value="5,25" label="RTrange" help="RT range to process in minutes, for example 5,25" >
+               </param>
+           </when>
+           <when value="hide" />
+        </conditional>
+
+        <conditional name="options_mzrange">
+           <param name="option" label="MZ range option " >
+               <option value="show">show</option>
+               <option value="hide" selected="true">hide</option>
+           </param>
+           <when value="show">
+               <param name="mzrange" type="text" value="50,500" label="MZrange" help="MZ range retained for the analysis, for example 50,500" >
+               </param>
+           </when>
+           <when value="hide" />
+        </conditional>
+         <param name="nSlaves" type="integer" value="2" label="Number of cores(CPU) to be used in peak picking."  />
+    </inputs>
+    <outputs>
+        <data name="output1"  filename="lcms_raw_pkTable.txt" />
+        <data name="output2"  filename="lcms_isotopes_removed_pkTable.txt" />
+        <html filename="outputs.html" name="html"/>
+    </outputs>
+
+
+    <configfiles>
+        <configfile name="script_file">$input</configfile>
+    </configfiles>
+</tool>

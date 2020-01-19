@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<tool id="enrichment_v2" name="Enrichment analysis" version="1.0" description="on Compounds ID mapping result">
+    <command>
+    "${SOFTDIR}/bin/Perl/bin/perl" "${SOFTDIR}/tools/pathways/enrichment_v2.pl" -html "$html" -i "$matrix"  -cmps "$cmps" -lib "$lib"
+    </command>
+    <inputs>
+        <param name="matrix" label="Compounds ID mapping results. Must be obtained from Tool: 'Compounds ID mapping' or same format." type="data" format="txt"/>
+        <param name="lib" label="Select a metabolite set library:" type="select" display="radio">
+                    <option value="smpdb_pathway" selected="true">Pathway-associated metabolite sets (SMPDB) (This library contains 99 metabolite sets based on normal metabolic pathways.)</option>
+                    <option value="blood">Disease-associated metabolite sets (Blood) (This library contains 344 metabolite sets reported in human blood.)</option>
+                    <option value="urine">Disease-associated metabolite sets (Urine) (This library contains 384 metabolite sets reported in human urine.)</option>
+                    <option value="csf">Disease-associated metabolite sets (CSF) (This library contains 166 metabolite sets reported in human cerebral spinal fluid (CSF).)</option>
+                    <option value="snp">SNP-associated metabolite sets (This library contains 4,598 metabolite sets based on their associations with detected single nucleotide polymorphisms (SNPs) loci.)</option>
+                    <option value="predicted">Predicted metabolite sets (This library contains 912 metabolic sets that are predicted to be changed in the case of dysfunctional enzymes using genome-scale network model of human metabolism.)</option>
+                    <option value="location">Location-based metabolite sets (This library contains 73 metabolite sets based on organ, tissue, and subcellular localizations.)</option>
+                    <option value="drug">Drug-pathway-associated metabolite sets (This library contains 461 metabolite sets based on drug pathways.)</option>
+        </param>
+        <param name="cmps" label="Only use metabolite sets containing at least:" type="select">
+            <option value="0" >1 compounds</option>
+            <option value="2"  selected="true">2 compounds</option>
+            <option value="3">3 compounds</option>
+            <option value="4">4 compounds</option>
+            <option value="5">5 compounds</option>
+        </param>
+    </inputs>
+    <outputs>
+        <html filename="outputs.html" name="html"/>
+    </outputs>
+</tool>

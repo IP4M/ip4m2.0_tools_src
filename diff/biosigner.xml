@@ -1,0 +1,40 @@
+<tool id="biosigner" name="Biosigner molecular signature discovery " version="1.2.4" description="with PLSDA, RF, and SVM">  
+  <command>
+
+  "${SOFTDIR}/bin/Perl/bin/perl" "${SOFTDIR}/tools/diff/biosigner.pl"  -input1 "$input1" -input2 "$input2" -methodVc "all"  -bootI "$bootI" -pvalN "$pvalN" -permI "1"  -tierC "$tierC"
+  -html "$html" -output1 "$output1" -output2 "$output2"  -output4 "$output4" -output5 "$output5" 
+  </command>
+  
+  <inputs>
+        <param name="input1" label="Input Peak Table file, Tab-delimited text file." type="data" format="txt"/>
+        <param name="input2" label="Group design file, Tab-delimited text file indicating replicate relationships. sample-to-group in columns given a file with two column (samplename     groupname)" type="data" format="txt"
+        help="Number of groups should be 2. See help document!"
+        />
+
+        <!--
+        <param name="methodVc" label="Classification method(s)" type="select" help="Either one or all of the above classifiers." display="radio">
+          <option value="all" selected="true">All</option>
+          <option value="plsda">PLS-DA</option>
+          <option value="randomforest">Random Forest</option>
+          <option value="svm">SVM</option>
+        </param>
+        -->
+	    <param name="bootI" type="integer" value="50" label="Number of bootstraps for resampling" help=""/>
+        <param name="pvalN" type="float" value="0.05" label="pvalN." help="To speed up the selection, only variables which significantly improve the model up to two times this threshold (to take into account potential fluctuations) are computed"/>
+        <!--<param name="permI" type="integer" value="1" label="Random permutation are used to assess the significance of each new variable included into the model (forward selection)" help=""/>-->
+        <param name="tierC" label="Selection tier(s)" type="select" help="significant.">
+          <option value="S" selected="true">S</option>
+          <option value="A">S+A</option>
+        </param>
+
+  </inputs>
+  
+  <outputs>
+        <data  filename="variable_results.txt" name="output1"/>
+        <data  filename="variable_significant_results.txt" name="output2"/>
+        <data  filename="figure-tier.pdf" name="output4"/>
+        <data  filename="figure-boxplot.pdf" name="output5"/>
+        <html  filename="outputs.html" name="html"/>
+  </outputs>
+
+</tool>

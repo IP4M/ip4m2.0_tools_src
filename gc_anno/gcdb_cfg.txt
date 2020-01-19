@@ -1,0 +1,7 @@
+NIST.msp	NSEN
+GMD_20111121_MDN35_FAME_MSP.txt	GMD_FAME
+GMD_20111121_MDN35_ALK_MSP.txt	GMD_ALK
+T_MSRI_ID.msp	GMD_MSIR
+MoNA-export-HMDB.msp	MoNA-HMDB
+MoNA-export-MetaboBASE.msp	MoNA-MetaboBASE
+MoNA-export-ReSpect.msp	MoNA-ReSpect

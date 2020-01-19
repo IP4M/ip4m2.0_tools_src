@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<tool id="data_filter" name="Outlier Processing" version="1.0.0" description="on peak table data">
+    <command>
+    "${SOFTDIR}/bin/Perl/bin/perl" "${SOFTDIR}/tools/table_pretreatment/dataFilter.pl" -html "$html" -i "$matrix"  -o "$output" -c "$coef"
+    </command>
+    <inputs>
+        <param name="matrix" label="Input Peak Table file, Tab-delimited text file:" type="data" format="txt"/>
+        <param name="coef" type="float" value="1.5" label="IQR coefficient:" help="default boundary: [0, Q3+1.5*IQR]."/>
+        <!--
+        <conditional name="group">
+            <param name="type" label="Analysis within group data? samples in columns given a file with two column (sample	groupname)">
+                <option value="yes">yes</option>
+                <option value="no" selected="true">no</option>
+            </param>
+            <when value="yes">
+                <param name="group_file" label="Input group design file" type="data" format="tabular"/>
+            </when>
+        </conditional>
+        -->
+        <!--
+        <param name="colList" label="Select Samples in Peak Table(Numerical columns), to calculate mean of the relative standard deviation:" help="delimited by comma, for example: 2,3,4 or 6,9,10" type="text" value="2,3,4" size="20">
+            <validator type="regex" message="Column(s) must be format: 5,7,9,10 or 1,2,3 or 5,10.">(\d+,)*\d+</validator>
+            <validator type="regex" message="Column number should not begin with 0">[1-9]\d*(,[1-9]\d*)*</validator>
+            <validator type="regex" message="Column number should not be 1, column 1 doesn't refer to a sample">([2-9]|[1-9]\d+)(,([2-9]|[1-9]\d+))*</validator>
+        </param>        
+         <param name="cutoff" type="float" value="0.2" label="cutoff for relative standard deviation:" />
+         -->
+    </inputs>
+    <outputs>
+        <data filename="outliers_processed_pkTable.txt" name="output"/>
+        <html filename="outputs.html" name="html"/>
+    </outputs>
+</tool>

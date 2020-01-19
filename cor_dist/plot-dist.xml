@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<tool id="plot_dist_matrix" name="Make distance heatmap " version="3.3.3" description="on distance matrix">
+    <command>
+    "${SOFTDIR}/bin/Perl/bin/perl" "${SOFTDIR}/tools/cor_dist/plot-dist.pl" -i "$matrix" -o "$output1" -w "$w" -h "$h" -rlc "$rlc" -clc "$clc" -col "$col" -cn "$cn" -log "$log" -mcr "$bottom_mar:$right_mar"   -html "$html"
+    </command>
+    <inputs>
+        <param name="matrix" label="Input distance matrix, can be obtained from Tool: 'Generate distance matrix'." type="data" format="txt" />
+        <param name="log" label="Data Transform Method" type="select" help="will plot the transformed value.">
+            <option value="none" selected="true">None</option>
+            <option value="log2">log2_transform: log2(value+1)</option>
+        </param>
+        <param name="cn" label="Add cellnote or not?" type="select">
+            <option value="yes">yes</option>
+            <option value="no" selected="true">no</option>
+        </param>        
+        <param name="w" label="Width of the graphics region in cm." type="float" value="17.78"/>
+        <param name="h" label="Height of the graphics region in cm." type="float" value="20.32"/>
+        <param name="rlc" label="row lab/font cex/size" type="float" value="1.2"/>
+        <param name="clc" label="col lab/font cex/size" type="float" value="1.2"/>
+	<param name="right_mar" label="right margin distance to row names, a relative value" type="float" value="20"/>
+	<param name="bottom_mar" label="bottom margin distance to col names, a relative value" type="float" value="8"/>
+        <param name="col" label="HeatMap Color Type" type="select">
+            <option value="black-red">black-red</option>
+            <option value="green-red-yellow">green-red-yellow</option>
+            <option value="purple-black-yellow">purple-black-yellow</option>
+            <option value="green-black-red">green-black-red</option>
+            <option value="darkblue-darkgreen-yellow-darkred" selected="true">darkblue-darkgreen-yellow-darkred</option>
+        </param>
+    </inputs>
+    <outputs>
+        <data filename="dist_heatmap.pdf" name="output1"/>
+        <html filename="outputs.html" name="html"/>
+    </outputs>
+</tool>

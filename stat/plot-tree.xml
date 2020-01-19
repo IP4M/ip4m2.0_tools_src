@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<tool id="plot_tree" name="Plot tree" version="4.1" description="on newick tree format file">
+    <command>
+    "${SOFTDIR}/bin/Perl/bin/perl" "${SOFTDIR}/tools/stat/plot-tree.pl" -i "$input" -o "$output1" -html "$html"
+    #if( $group.type == "yes" )
+        -d "$group.group_file" -lcex "$group.lcex"
+    #end
+    -tretype "$tretype" -w "$w" -h "$h" -cex "$cex" -eg "$eg" -sl "$sl" -ma "$ma" -laboff "$laboff" -rule "$rule"
+    </command>
+    <inputs>
+        <param name="input" label="Input Newick tree format file(*.nwk), can be otained from Tool: 'Plot hcluster tree'" type="data" format="nwk"/>
+        <conditional name="group">
+            <param name="type" label="Samples in different groups  drawed with  different color? If provide the group design file, a Tab-delimited text file, samples in one group will be plotted as same color. sample-to-group in columns given a file with two column (samplename	groupname)">
+                <option value="yes">yes</option>
+                <option value="no" selected="true">no</option>
+            </param>
+            <when value="yes">
+                <param name="group_file" label="Input group design file." type="data" format="txt"/>
+                <param name="lcex" label="Legend font size/cex" type="float" value="1"/>
+            </when>
+        </conditional>
+        <param name="tretype" label="Tree plot type" type="select">
+            <option value="phylogram" selected="true">phylogram</option>
+            <option value="fan">fan</option>
+<!--            
+            <option value="radial">radial</option>
+-->
+            <option value="cladogram">cladogram</option>
+        </param>
+        <param name="w" label="Width of the graphics region in inches." type="float" value="5"/>
+        <param name="h" label="Height of the graphics region in inches." type="float" value="6"/>
+        <param name="cex" label="Label font size/cex" type="float" value="1"/>
+        <param name="eg" label="Edge/Line width" type="float" value="1"/>
+        <param name="sl" label="Show labels or not?" type="select">
+            <option value="T" selected="true">Yes</option>
+            <option value="F">No</option>
+        </param>
+        <param name="ma" label="Make branch length the same?" type="select">
+            <option value="T">Yes</option>
+            <option value="F" selected="true">No</option>
+        </param>
+        <param name="laboff" label="Label offset" type="float" value="0.0002"/>
+        <param name="rule" label="Ruler scale/length"  type="float" value="0.1"/> 
+    </inputs>
+    <outputs>
+        <data filename="plot_tree.pdf" name="output1"/>
+         <html  filename="outputs.html" name="html"/>
+    </outputs>
+</tool>

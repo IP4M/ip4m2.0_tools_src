@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<tool id="merge_matrices" name="Merge tables by compound name" version="1.0" description="">
+    <command>
+    "${SOFTDIR}/bin/Perl/bin/perl" 
+    #if( $name == "no" ) 
+        "${SOFTDIR}/tools/table_op/merge_matrices.pl"
+    #else
+        "${SOFTDIR}/tools/table_op/merge_matrices_rep.pl"
+    #end
+    #foreach( $r in $rep)
+        "$r.matrix"
+    #end
+    "$output"  "$html"
+    </command>
+    <inputs>
+        <param name="name" label="Allow duplicate column header(sample name)?" type="boolean" checked="false" truevalue="yes" falsevalue="no" help="Average value will be calculated when the duplicate sample names are allowed.">
+        </param>
+        <repeat name="rep" title="Matrix" default="2" min="2">
+            <param name="matrix" label="Input matrix, peak table etc.." type="data" format="txt"/>
+        </repeat>
+    </inputs>
+    <outputs>
+        <data  filename="merged_matrix.txt" name="output"/>
+        <html  filename="outputs.html" name="html"/>
+    </outputs>
+</tool>

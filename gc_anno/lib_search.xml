@@ -1,0 +1,59 @@
+<tool id="cus_lib_search" name="GC-MS peak annotation " version="1.0" description="on msp database file">
+ 
+  <command>
+    "${SOFTDIR}/bin/Perl/bin/perl" "${SOFTDIR}/tools/gc_anno/lib_search.pl" -matrix "$matrix" -query "$query"  -method "$method" -cutoff "$cutoff" -output "$output" -html "$html" -output2 "$output2"
+		-mzRes "$mzRes" -rt_cut "$rt_cut" -log "$log"
+        #if(  $use_db.type == "no" )
+            -db  "$use_db.opt" -user "no"
+        #else
+
+           -db "$use_db.db" -user "yes"
+        #end
+  </command>
+  <inputs>
+        <param name="matrix" label="Input Peak Table file, Tab-delimited text file:" type="data" format="txt"/>
+  	    <param name="query" label="Query msp file" format="msp" type="data" help="msp file contains mass spectrum information." />
+
+        <conditional name="use_db">
+            <param name="type" label="Use user-defined GC-MS database in msp format">
+                <option value="yes" >yes</option>
+                <option value="no" selected="true">no</option>
+            </param>
+            <when value="yes">
+               <param name="db" label="Database msp file" format="msp" type="data" help="msp file contains mass spectrum information." />
+            </when>
+            <when value="no">
+                <param name="opt" label="Public DB:" type="select" multiple="true" display="checkboxes">
+                    <option value="NIST.msp" selected="true">NSEN</option>
+                    <option value="GMD_20111121_MDN35_FAME_MSP.txt">GMD_FAME</option>
+                    <option value="GMD_20111121_MDN35_ALK_MSP.txt">GMD_ALK</option>   
+                    <option value="T_MSRI_ID.msp">GMD_MSIR</option>
+                    <option value="MoNA-export-HMDB.msp">MoNA-HMDB</option>
+                    <option value="MoNA-export-MetaboBASE.msp">MoNA-MetaboBASE</option>
+                    <option value="MoNA-export-ReSpect.msp">MoNA-ReSpect</option>
+                </param>
+            </when>
+        </conditional>
+
+        
+        <param name="mzRes" type="integer" value="0" label="Number of significant decimal" help="Number of significant decimals of your m/z." />
+    	<param name="method" label="matching factor function for mass spectrum:" type="select" >
+          <option value="dot">normalized dot product</option>
+          <option value="euclid">normalized euclidean distance</option>
+        </param>
+        <param name="cutoff" type="float" value="0.7" label="mass spectrum similarity cutoff:" help="0-1. more similar have a larger matching factor.">
+            <validator type="in_range" min="0" max="1"/>
+        </param>
+        <param name="rt_cut" type="float" value="0.2" label="retention time window:" help="Notice. negative value will ignore comparing the rt." />
+            
+	</inputs>
+	
+	<outputs>
+	     <data name="output" filename="identified_pkTable.txt"/>
+         <data name="output2" filename="identified_uniq_pkTable.txt"/>
+          <data name="log" filename="detailed_information.txt"/>	
+	     <html name="html"  filename="outputs.html"/>
+	</outputs>
+
+</tool>
+	 

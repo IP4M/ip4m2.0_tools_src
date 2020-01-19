@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<tool id="pwr_r_test" name="pwr.r.test" version="1.2-1" description="power calculations for correlation test">
+    <command>
+    "${SOFTDIR}/bin/Perl/bin/perl" "${SOFTDIR}/tools/power/pwr.r.test.pl" -r "$r" -n "$n"  -sig "$sig" -power "$power" -alternative "$alternative" -output "$output" -html "$html"
+    </command>
+    <inputs>
+        <param name="n" label="Number of observations:" type="text" value="NULL" help="(n). Exactly one of the parameters 'r','n','power' and 'sig.level' must be passed as NULL"/>
+        <param name="r" label="Linear correlation coefficient(effect size):" type="text" value="0.3" help="(r). Exactly one of the parameters 'r','n','power' and 'sig.level' must be passed as NULL"/>
+        <param name="sig" label="Significance level (Type I error probability):" type="text" value="0.05" help="(sig.level). Exactly one of the parameters 'r','n','power' and 'sig.level' must be passed as NULL"/>
+        <param name="power" label="Power of test (1 minus Type II error probability)" type="text" value="0.8" help="(power). Exactly one of the parameters 'r','n','power' and 'sig.level' must be passed as NULL"/>
+        <param name="alternative" label="Specify the alternative hypothesis:" type="select" help="(alternative).">
+            <option value="two.sided"  selected="true">two.sided</option>
+            <option value="greater">greater</option>
+            <option value="less">less</option>
+        </param>
+    </inputs>
+    <outputs>
+        <data  filename="pwr.r.test" name="output"/>
+        <html  filename="outputs.html" name="html"/>
+    </outputs>
+</tool>

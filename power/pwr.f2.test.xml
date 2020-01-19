@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<tool id="pwr_f2_test" name="pwr.f2.test" version="1.2-1" description="power calculations for general linear model">
+    <command>
+    "${SOFTDIR}/bin/Perl/bin/perl" "${SOFTDIR}/tools/power/pwr.f2.test.pl" -u "$u" -v "$v"  -sig "$sig" -power "$power" -output "$output" -html "$html"
+    #if( $method.type == "set" ) 
+        -f2 "$method.f2"
+    #else
+       #if($method.form.type == "m1")
+         -R2 "$method.form.R2"
+       #else
+         -R2a "$method.form.R2a"  -R2ab "$method.form.R2ab"
+       #end
+    #end
+    </command>
+    <inputs>
+        <param name="u" label="degrees of freedom for numerator:" type="text" value="5" help="(u). Exactly one of the parameters 'u','v','f2','power' and 'sig.level' must be passed as NULL"/>
+        <param name="v" label="degrees of freedomfor denominator:" type="text" value="89" help="(v). Exactly one of the parameters 'u','v','f2','power' and 'sig.level' must be passed as NULL"/>
+        
+
+       <conditional name="method">
+            <param name="type" label="Effect size by">
+                <option value="set" selected="true">direct setting</option>
+                <option value="cal">calculation</option>
+            </param>
+            <when value="set">
+                <param name="f2" label="effect size:" type="text" value="0.1/(1-0.1)" help="(f2). Exactly one of the parameters 'u','v','f2','power' and 'sig.level' must be passed as NULL"/>
+            </when>
+            <when value="cal">
+                <conditional name="form">
+                    <param name="type" label="formalua:">
+                        <option value="m1" selected="true">R2/(1-R2)</option>
+                        <option value="m2">(R2ab-R2a)/(1-R2ab)</option>
+                    </param> 
+                    <when value="m1">
+                         <param name="R2" label="population squared multiple correlation" type="float" help="R2.">
+                             <validator type="in_range" min="0" />
+                         </param>
+                    </when>
+                    <when value="m2">
+                         <param name="R2a" label="variance accounted for in the population by variable set A" type="float" help="R2a.">
+                             <validator type="in_range" min="0" />
+                         </param>
+                         <param name="R2ab" label="variance accounted for in the population by variable set A and B together" type="float" help="R2ab.">
+                             <validator type="in_range" min="0" />
+                         </param>
+                    </when>
+                 </conditional>
+            </when>
+        </conditional>
+
+        <param name="sig" label="Significance level (Type I error probability):" type="text" value="0.05" help="(sig.level). Exactly one of the parameters 'u','v','f2','power' and 'sig.level' must be passed as NULL"/>
+        <param name="power" label="Power of test (1 minus Type II error probability)" type="text" value="NULL" help="(power). Exactly one of the parameters 'u','v','f2','power' and 'sig.level' must be passed as NULL"/>
+    </inputs>
+    <outputs>
+        <data  filename="pwr.f2.test.txt" name="output"/>
+        <html  filename="outputs.html" name="html"/>
+    </outputs>
+</tool>

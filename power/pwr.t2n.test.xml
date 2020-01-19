@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<tool id="pwrt2ntest" name="pwr.t2n.test" version="1.2-1" description="two samples (different sizes) t-tests of means">
+    <command>
+    "${SOFTDIR}/bin/Perl/bin/perl" "${SOFTDIR}/tools/power/pwr.t2n.test.pl"  -n1 "$n1" -n2 "$n2" -sig "$sig" -power "$power" -alternative "$alternative" -output "$output" -html "$html"
+    #if( $method.type == "set" ) 
+        -d "$method.d"
+    #else
+        -u1 "$method.u1" -u2 "$method.u2" -var "$method.var"
+    #end
+    </command>
+    <inputs>
+       <conditional name="method">
+            <param name="type" label="Effect size by">
+                <option value="set" selected="true">direct setting</option>
+                <option value="cal">calculation</option>
+            </param>
+            <when value="set">
+                <param name="d" label="Effect size:" type="text" value="0.3" help="(d). Exactly one of the parameters 'd','n','power' and 'sig.level' must be passed as NULL"/>
+            </when>
+            <when value="cal">
+                <param name="u1" label="mean of group1" type="float" />
+                <param name="u2" label="mean of group2" type="float" />
+                <param name="var" label="common error variance" type="float" />
+            </when>
+        </conditional>   
+        <param name="n1" label="Number of observations in the first sample:" type="text" value="90" help="(n1). Exactly one of the parameters 'd','n1','n2','power' and 'sig.level' must be passed as NULL"/>
+        <param name="n2" label="Number of observationsz in the second sample:" type="text" value="60" help="(n2). Exactly one of the parameters 'd','n1','n2','power' and 'sig.level' must be passed as NULL"/>
+        <param name="sig" label="Significance level (Type I error probability):" type="text" value="0.05" help="(sig.level). Exactly one of the parameters 'd','n1','n2','power' and 'sig.level' must be passed as NULL"/>
+        <param name="power" label="Power of test (1 minus Type II error probability)" type="text" value="NULL" help="(power). Exactly one of the parameters 'd','n1','n2','power' and 'sig.level' must be passed as NULL"/>
+        <param name="alternative" label="Specify the alternative hypothesis:" type="select" help="(alternative).">
+            <option value="two.sided"  selected="true">two.sided</option>
+            <option value="greater">greater</option>
+            <option value="less">less</option>
+        </param>
+    </inputs>
+    <outputs>
+        <data  filename="pwr.t2n.test.txt" name="output"/>
+        <html  filename="outputs.html" name="html"/>
+    </outputs>
+</tool>

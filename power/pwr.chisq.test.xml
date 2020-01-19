@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<tool id="pwr_chisq_test" name="pwr.chisq.test" version="1.2-1" description="power calculations for chi-square test">
+    <command>
+    "${SOFTDIR}/bin/Perl/bin/perl" "${SOFTDIR}/tools/power/pwr.chisq.test.pl" -N "$N" -df "$df" -sig "$sig" -power "$power" -output "$output" -html "$html"
+    #if( $method.type == "set" ) 
+        -w "$method.w"
+    #else
+        #foreach( $rep in $method.reps)
+            "${rep.p0i}" "${rep.p1i}"
+        #end
+    #end
+    </command>
+    <inputs>
+
+       <conditional name="method">
+            <param name="type" label="Effect size by">
+                <option value="set" selected="true">direct setting</option>
+                <option value="cal">calculation</option>
+            </param>
+            <when value="set">
+                <param name="w" label="Effect size:" type="text" value="0.2" help="(w). Exactly one of the parameters 'w','N','power' and 'sig.level' must be passed as NULL"/>
+            </when>
+            <when value="cal">
+                <repeat name="reps" title="group" min="2" default="2">
+                    <param name="p0i" label="cell probability in ith cell under H0" type="float" help="p0i."/>
+                    <param name="p1i" label="cell probability in ith cell under H1" type="float" help="p1i."/>
+                </repeat>
+            </when>
+        </conditional>
+        <param name="N" label="Total number of observations:" type="text" value="NULL" help="(N). Exactly one of the parameters 'w','N','power' and 'sig.level' must be passed as NULL"/>
+        <param name="df" label="degree of freedom (depends on the chosen test):" type="text" value="2" help="(df). Exactly one of the parameters 'w','N','power' and 'sig.level' must be passed as NULL"/>
+        <param name="sig" label="Significance level (Type I error probability):" type="text" value="0.05" help="(sig.level). Exactly one of the parameters 'w','N','power' and 'sig.level' must be passed as NULL"/>
+        <param name="power" label="Power of test (1 minus Type II error probability)" type="text" value="0.8" help="(power). Exactly one of the parameters 'w','N','power' and 'sig.level' must be passed as NULL"/>
+    </inputs>
+    <outputs>
+        <data  filename="pwr.chisq.test.txt" name="output"/>
+        <html  filename="outputs.html" name="html"/>
+    </outputs>
+</tool>

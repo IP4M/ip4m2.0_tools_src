@@ -1,0 +1,32 @@
+<tool id="oplsdav2" name="Orthogonal partial least squares discriminant analysis" version="1.6.2" description="">
+    <command>
+    "${SOFTDIR}/bin/Perl/bin/perl" "${SOFTDIR}/tools/diff/oplsda.pl" -i "$input1" -g "$input2" -vip "$vip" -zscal "$zscal" -html  "$html"  
+    </command>
+
+    <inputs>
+        <param name="input1" label="Input Peak Table file, Tab-delimited text file." type="data" format="txt"/>
+        <param name="input2"
+               label="Group design file, Tab-delimited text file indicating replicate relationships. sample-to-group in columns given a file with two column (samplename     groupname)"
+               type="data" format="txt" help="Notice: OPLS-DA only available for binary classification, So number of groups should be 2. See help document!"/>
+
+
+        <!--
+        <param name="zscal" label="Scaling and centering the row across all the samples?" type="select" >
+            <option value="TRUE">Yes</option>
+            <option value="FALSE" selected="true">No</option>
+        </param>
+        -->
+        <param name="zscal"  type="hidden" value="FALSE">
+            <option value="TRUE">Yes</option>
+            <option value="FALSE" selected="true">No</option>
+        </param>
+        <param name="vip" type="float" value="1" label="VIP-value threshold for significant variable results." help="Must be numeric."/>
+
+
+    </inputs>
+
+    <outputs>
+        <html  filename="outputs.html" name="html"/>
+    </outputs>
+
+</tool>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<tool id="pwrttest" name="pwr.t.test" version="1.2-1" description="power calculations for t-tests of means (one sample, two samples and paired samples)">
+    <command>
+    "${SOFTDIR}/bin/Perl/bin/perl" "${SOFTDIR}/tools/power/pwr.t.test.pl"  -n "$n"  -sig "$sig" -power "$power" -alternative "$alternative" -output "$output" -type "$type" -html "$html"
+    #if( $method.type == "set" ) 
+        -d "$method.d"
+    #else
+        -u1 "$method.u1" -u2 "$method.u2" -var "$method.var"
+    #end
+    </command>
+    <inputs>
+       <conditional name="method">
+            <param name="type" label="Effect size by">
+                <option value="set" selected="true">direct setting</option>
+                <option value="cal">calculation</option>
+            </param>
+            <when value="set">
+                <param name="d" label="Effect size:" type="text" value="0.3" help="(d). Exactly one of the parameters 'd','n','power' and 'sig.level' must be passed as NULL"/>
+            </when>
+            <when value="cal">
+                <param name="u1" label="mean of group1" type="float" />
+                <param name="u2" label="mean of group2" type="float" />
+                <param name="var" label="common error variance" type="float" />
+            </when>
+        </conditional>
+        <param name="n" label="Number of observations (per sample):" type="text" value="NULL" help="(n). Exactly one of the parameters 'd','n','power' and 'sig.level' must be passed as NULL"/>
+        <param name="sig" label="Significance level (Type I error probability):" type="text" value="0.05" help="(sig.level). Exactly one of the parameters 'd','n','power' and 'sig.level' must be passed as NULL"/>
+        <param name="power" label="Power of test (1 minus Type II error probability)" type="text" value="0.8" help="(power). Exactly one of the parameters 'd','n','power' and 'sig.level' must be passed as NULL"/>
+        <param name="type" label="Type of t test : one- two- or paired-samples:" type="select" help="(type).">
+            <option value="two.sample"  selected="true">two.sample</option>
+            <option value="one.sample">one.sample</option>
+            <option value="paired">paired</option>
+        </param>
+        <param name="alternative" label="Specify the alternative hypothesis:" type="select" help="(alternative).">
+            <option value="two.sided"  selected="true">two.sided</option>
+            <option value="greater">greater</option>
+            <option value="less">less</option>
+        </param>
+    </inputs>
+    <outputs>
+        <data  filename="pwr.t.test.txt" name="output"/>
+        <html  filename="outputs.html" name="html"/>
+    </outputs>
+</tool>

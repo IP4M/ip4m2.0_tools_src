@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<tool id="replicates_to_sample_averages_matrix" name="Row averages by groups" version="1.0" description="on peak table data">
+    <command>
+    "${SOFTDIR}/bin/Perl/bin/perl" "${SOFTDIR}/tools/table_op/replicates_to_sample_averages_matrix.pl" --matrix "$matrix" --samples_file "$samples_file" $avg_log_val --output "$output"
+    --html "$html"
+    </command>
+    <inputs>
+        <param name="matrix" label="Input Peak Table file, Tab-delimited text file:" type="data" format="txt"/>
+        <param name="samples_file" label="samples-to-group design file, Tab-delimited text file. samples-to-group in columns given a file with two column (samplename     groupname)" type="data" format="txt"/>
+        <param name="avg_log_val" label="yield exp(avg(log(samples))) instead of default: avg(samples)" type="boolean" checked="false" truevalue="--avg_log_val" falsevalue=""/>
+    </inputs>
+    <outputs>
+        <data  filename="group_aver_pkTable.txt" name="output"/>
+         <html  filename="outputs.html" name="html"/>
+    </outputs>
+</tool>

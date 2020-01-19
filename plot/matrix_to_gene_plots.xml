@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<tool id="matrix_to_gene_plots" name="Line or Bar chart" version="3.3.3" description="on peak table">
+    <command>
+    "${SOFTDIR}/bin/Perl/bin/perl" "${SOFTDIR}/tools/plot/matrix_to_gene_plots.pl" --matrix "$matrix" --pdf "$output" $barplot $log2 --width_per_plot "$width_per_plot" --height_per_plot "$height_per_plot" --plots_per_row "$plots_per_row" --plots_per_col "$plots_per_col" --html "$html"
+    </command>
+    <inputs>
+        <param name="matrix" label="Input Peak Table file, Tab-delimited text file." type="data" format="txt"/>
+
+        <param name="width_per_plot" label="Dimensions: Width per plot" type="float" value="2.5"/>
+        <param name="height_per_plot" label="Dimensions: Height per plot" type="float" value="2.5"/>
+
+        <param name="plots_per_row" label="Layout: plots per row" type="integer" value="2"/>
+        <param name="plots_per_col" label="Layout: plots per col" type="integer" value="3"/>
+
+        <param name="barplot" label="Bar plot?" type="boolean" checked="false" truevalue="--barplot" falsevalue=""/>
+        <param name="log2" label="Log2 transfer?" type="boolean" checked="false" truevalue="--log2" falsevalue=""/>
+    </inputs>
+    <outputs>
+        <data  filename="metabolites_plot.pdf" name="output"/>
+        <html  filename="outputs.html" name="html"/>
+    </outputs>
+</tool>

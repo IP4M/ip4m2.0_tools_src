@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<tool id="retri_pairs_in_matrix" name="For CytoScape, retrieve pairs from matrix" version="1.0" description="according to specific criterion">
+    <command>
+    "${SOFTDIR}/bin/Perl/bin/perl" "${SOFTDIR}/tools/cor_dist/retri_pairs_in_matrix.pl" -i "$matrix" -o "$output" -min "$min" -max "$max" -op "$op" -html "$html"
+    </command>
+    <inputs>
+        <param name="matrix" label="Input matrix, Tab-delimited text file." type="data" format="txt"/>
+        <param name="min" label="Min value(&gt;=min) for each pair" type="float" value="-1"/>
+        <param name="op" label="and/or?" type="select">
+            <option value="and" selected="true">And</option>
+            <option value="or">Or</option>
+        </param>
+        <param name="max" label="Max value(&lt;=max) for each pair" type="float" value="1"/>
+    </inputs>
+    <outputs>
+        <data filename="retri_pairs.txt" name="output"/>
+        <html  filename="outputs.html" name="html"/>
+    </outputs>
+</tool>

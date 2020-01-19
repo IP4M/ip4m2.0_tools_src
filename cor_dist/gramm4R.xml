@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<tool id="gramm4R" name="Intercorrelation between metabolomics and microbiome" version="1.0.0" description="" >
+    <command>
+    "${SOFTDIR}/bin/Perl/bin/perl" "${SOFTDIR}/tools/cor_dist/gramm4R.pl" -i1 "$matrix" -i2 "$matrix2" -html "$html"   -pcut "$pcut"  -rcuf "$rcuf"
+    #if( $use_conf.type == "yes" )
+        -i3 "$use_conf.matrix3" 
+    #end
+    
+    -metaNor "$metaNor"
+    -rarefaction "$rarefaction"
+    -r "$r"
+    -alpha "$alpha"
+    </command>
+    <inputs>
+        <param name="matrix" label="Data of metabolome, Tab-delimited text file." type="data" format="txt" help="where rows represent features of metabolites and columns represent samples."/>
+        <param name="matrix2" label="Data of microbiome, Tab-delimited text file." type="data" format="txt" help="where rows represent features of microbes and columns represent samples."/>
+        <conditional name="use_conf">
+            <param name="type" label="Use covariates as a third variable?">
+                <option value="yes" selected="true">Yes</option>
+                <option value="no" >No</option>
+            </param>
+            <when value="yes">
+               <param name="matrix3" label="Data of covariates, Tab-delimited text file." type="data" format="txt" help="where rows represent features of covariates and columns represent samples."/>
+            </when>
+        </conditional>
+
+	    <param name="metaNor" label="Should metabolome data normalized? Using normalization when your metabolites are qualitative; and no normalization when the metabolites are quantitative. Default:TRUE." type="select" >
+            <option value="TRUE" selected="true">TRUE</option>
+            <option value="FALSE" >FALSE</option>
+        </param>
+
+	    <param name="rarefaction" label="Resample an OTU table such that all samples have the same library size. Here refers to a repeated sampling procedure to assess species richness, first proposed in 1968 by Howard Sanders.(see wikipedia for more detail.) Default:FALSE." type="select" >
+            <option value="TRUE">TRUE</option>
+            <option value="FALSE" selected="true">FALSE</option>
+        </param>
+
+        <param name="r" type="float" value="0.5" label="The linear regression coefficients threshold for using nonlinear method. Default: 0.5." help="Must be between 0 and 1">
+            <validator type="in_range" min="0" max="1"/>
+        </param>
+        <param name="alpha" type="float" value="0.05" label="The linear regression p-value threshold for using nonlinear method.Default: 0.05." help="Must be between 0 and 1">
+            <validator type="in_range" min="0" max="1"/>
+        </param>
+
+        <param name="pcut" type="float" value="0.05" label="P-value  threshold:" help="Must be between 0 and 1">
+            <validator type="in_range" min="0" max="1"/>
+        </param>
+        <param name="rcuf" type="float" value="0.4" label="Correlation coefficient threshold:" help="Must be between 0 and 1">
+            <validator type="in_range" min="0" max="1"/>
+        </param>
+
+    </inputs>
+    <outputs>
+        <html  filename="outputs.html" name="html"/>
+    </outputs>
+</tool>

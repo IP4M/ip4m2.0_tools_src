@@ -1,0 +1,30 @@
+<tool id="boruta" name="Boruta algorithm for feature selection" version="6.0.0">
+    <command>
+     "${SOFTDIR}/bin/Perl/bin/perl" "${SOFTDIR}/tools/boruta/boruta.pl" -input1 "$input1" -input2 "$input2"  -scale "$zscal" -pValue "$pValue" -maxRuns "$maxRuns" 
+
+    -html "$html" 
+    </command>
+    <inputs>
+        <param name="input1" label="Input Peak Table file, Tab-delimited text file." type="data" format="txt"/>
+        <param name="input2" label="Group design file, Tab-delimited text file indicating replicate relationships. sample-to-group in columns given a file with two column (samplename     groupname)" type="data" format="txt"
+        help="See help document!"
+        />
+        <!--
+        <param name="zscal" label="Scaling and centering the row across all the samples?" type="select" >
+            <option value="TRUE">Yes</option>
+            <option value="FALSE" selected="true">No</option>
+        </param>
+        -->
+        <param name="zscal"  type="hidden" value="FALSE">
+            <option value="TRUE">Yes</option>
+            <option value="FALSE" selected="true">No</option>
+        </param>    
+        <param name="pValue" type="float" value="0.01" label="Confidence level:" help="Default value should be used."/>
+        <param name="maxRuns" type="integer" value="100" label="Maximal number of importance source runs. You may increase it to resolve attributes left Tentative." />
+
+        
+    </inputs>
+    <outputs>
+        <html  filename="outputs.html" name="html"/>
+    </outputs>
+</tool>

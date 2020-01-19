@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<tool id="heatmap" name="Plot heatmap with tree " version="18211" description="on peak table">
+    <command>
+    "${SOFTDIR}/bin/Perl/bin/perl" "${SOFTDIR}/tools/stat/heatmap.pl"  -i "$matrix" -w "$w" -h "$h" -pdf "$output1" -data "$output2" -html "$html" -dendrogram "$dendrogram"
+    #if( $group.type == "yes" )
+        -s "$group.samples_file"
+    #end
+    -color "$col" -rcex "$rlc"  -ccex "$clc" -log "$method"
+    -gene_dist "$gene.gene_dist" -gene_clust "$gene_clust" -gene_cor "$gene.gene_cor"
+    -sample_dist "$sample.sample_dist" -sample_clust  "$sample_clust" -sample_cor "$sample.sample_cor"
+    </command>
+    <inputs>
+        <param name="matrix" label="Input Peak Table file, Tab-delimited text file." type="data" format="txt"/>
+        <conditional name="group">
+            <param name="type" label="Samples in different groups  drawed with  different color? If provide the group design file, a Tab-delimited text file, samples in one group will be plotted as same color. sample-to-group in columns given a file with two column (samplename	groupname)">
+                <option value="yes">yes</option>
+                <option value="no" selected="true">no</option>
+            </param>
+            <when value="yes">
+                <param name="samples_file" label="Input group design file." type="data" format="txt"/>
+            </when>
+        </conditional>
+        <param name="method" label="Data Transform Method" type="select" help="process before distance calculation and clust.">
+            <option value="none" selected="true">None</option>
+            <option value="log2" >log2_transform: log2(v+1)</option>
+            <option value="log2_center">log2_transform_row_median_center: scale(log2(v+1))</option>
+            <option value="center">row_median_center: scale(v)</option>
+        </param>
+        <param name="dendrogram" label="Dendrogram:" type="select" help="both / row / column / none.">
+            <option value="both" selected="true">both</option>
+            <option value="row" >row</option>
+            <option value="column">column</option>
+            <option value="none">none</option>
+        </param>
+        <conditional name="gene">
+            <param name="gene_dist" label="Metabolite distance calculate method">
+                <option value="euclidean" selected="true">euclidean</option>
+                <option value="gene_cor">metabolite_cor</option>
+                <option value="maximum">maximum</option>
+                <option value="manhattan">manhattan</option>
+                <option value="canberra">canberra</option>
+                <option value="binary">binary</option>
+                <option value="minkowski">minkowski</option>
+            </param>
+            <when value="gene_cor">
+                <param name="gene_cor" label="Metabolite correlation coefficient calculate method." type="select">
+                    <option value="pearson">Pearson</option>
+                    <option value="kendall">Kendall</option>
+                    <option value="spearman">Spearman</option>
+                </param>
+            </when>
+        </conditional>
+        <param name="gene_clust" label="Metabolite cluster method, based on distance matrix among metabolite." type="select">
+            <option value="ward">ward</option>
+            <option value="single">single</option>
+            <option value="complete" selected="true">complete</option>
+            <option value="average">average</option>
+            <option value="mcquitty">mcquitty</option>
+            <option value="median">median</option>
+            <option value="centroid">centroid</option>
+        </param>
+
+        <conditional name="sample">
+            <param name="sample_dist" label="Sample distance calculate method">
+                <option value="euclidean" selected="true">euclidean</option>
+                <option value="sample_cor">sample_cor</option>
+                <option value="maximum">maximum</option>
+                <option value="manhattan">manhattan</option>
+                <option value="canberra">canberra</option>
+                <option value="binary">binary</option>
+                <option value="minkowski">minkowski</option>
+            </param>
+            <when value="sample_cor">
+                <param name="sample_cor" label="Sample correlation coefficient calculate method." type="select">
+                    <option value="pearson">Pearson</option>
+                    <option value="kendall">Kendall</option>
+                    <option value="spearman">Spearman</option>
+                </param>
+            </when>
+        </conditional>
+        <param name="sample_clust" label="Sample cluster method, based on distance matrix among samples." type="select">
+            <option value="ward">ward</option>
+            <option value="single">single</option>
+            <option value="complete" selected="true">complete</option>
+            <option value="average">average</option>
+            <option value="mcquitty">mcquitty</option>
+            <option value="median">median</option>
+            <option value="centroid">centroid</option>
+        </param>
+
+        <param name="w" label="Width of the graphics region in cm." type="float" value="17.78"/>
+        <param name="h" label="Height of the graphics region in cm." type="float" value="25.4"/>
+        <param name="rlc" label="row lab/font cex/size" type="float" value="1"/>
+        <param name="clc" label="col lab/font cex/size" type="float" value="1"/>
+        <param name="col" label="HeatMap Color Type" type="select">
+            <option value="black,red">black-red</option>
+            <option value="green,red,yellow">green-red-yellow</option>
+            <option value="purple,black,yellow" selected="true">purple-black-yellow</option>
+            <option value="green,black,red">green-black-red</option>
+            <option value="darkblue,darkgreen,yellow">darkblue-darkgreen-yellow</option>
+            <option value="blue,orange,red" >blue-orange-red</option>
+        </param>
+    </inputs>
+    <outputs>
+        <data filename="heatmap_plot.pdf" name="output1"/>
+        <data filename="heatmap_plot_data.txt" name="output2"/>
+        <html filename="outputs.html" name="html"/>
+    </outputs>
+</tool>

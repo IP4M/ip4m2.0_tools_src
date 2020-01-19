@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<tool id="area_normalize" name="Total area normalization" version="1.0.0" description="on peak table data">
+    <command>
+    "${SOFTDIR}/bin/Perl/bin/perl" "${SOFTDIR}/tools/table_pretreatment/peakAreaNormal.pl" -html "$html" -i "$matrix" -c "$value"	-o "$output"
+    </command>
+    <inputs>
+        <param name="matrix" label="Input Peak Table file, Tab-delimited text file." type="data" format="txt"/>
+        <param name="value" label="A real number for Normalization." type="float" value="1000" help="Sum of compouds intensity in each sample are equal to this value. column_sum."/>
+    </inputs>
+    <outputs>
+        <data filename="total_area_norm_pkTable.txt" name="output"/>
+        <html filename="outputs.html" name="html"/>
+    </outputs>
+</tool>

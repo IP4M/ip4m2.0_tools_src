@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<tool id="plot_pca" name="Principal component analysis" version="1.1" description="">
+    <command>
+    "${SOFTDIR}/bin/Perl/bin/perl" "${SOFTDIR}/tools/stat/plot-pca.pl" -i "$matrix"  -html "$html"
+    #if( $group.type == "yes" )
+        -g "$group.group_file"
+    #end
+     -zscal "$zscal"
+    </command>
+    <inputs>
+        <param name="matrix" label="Input Peak Table file, Tab-delimited text file." type="data" format="txt"/>
+        <conditional name="group">
+            <param name="type" label="Samples in different groups  drawed with  different color? If provide the group design file, a Tab-delimited text file, samples in one group will be plotted as same color. sample-to-group in columns given a file with two column (samplename	groupname)">
+                <option value="yes">yes</option>
+                <option value="no" selected="true">no</option>
+            </param>
+            <when value="yes">
+                <param name="group_file" label="Input group design file." type="data" format="txt"/>
+            </when>
+        </conditional>
+        <!--
+        <param name="zscal" label="Scaling and centering the row across all the samples?" type="select" >
+            <option value="TRUE">Yes</option>
+            <option value="FALSE" selected="true">No</option>
+        </param>
+        -->
+        <param name="zscal"  type="hidden" value="FALSE">
+            <option value="TRUE">Yes</option>
+            <option value="FALSE" selected="true">No</option>
+        </param>
+
+    </inputs>
+    <outputs>
+        <html filename="outputs.html" name="html"/>
+    </outputs>
+</tool>
