@@ -1,2 +1,5 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+*.js linguist-language=perl
+*.css linguist-language=perl
+*.html linguist-language=perl
